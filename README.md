@@ -8,6 +8,8 @@ Yet another Discord Presence will show information on your current activity in V
 
 Of course your're gonna need to have discord installed on your pc.
 
-### 0.0.3
+### 0.0.5
 
-Minor bug fixes, code overhaul
+Added first icons (ts & js)
+
+Added icons to show (in-)activity

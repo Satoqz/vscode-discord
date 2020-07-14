@@ -1,5 +1,7 @@
 # Change Log
 
-### 0.0.3
+### 0.0.5
 
-Minor bug fixes, code overhaul
+Added first icons (ts & js)
+
+Added icons to show (in-)activity

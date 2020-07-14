@@ -1,14 +1,16 @@
 //this is horrible, i made it for fun only, okay ????? OKAY !!!!!
 
-import { workspace, TextDocumentChangeEvent, TextDocument, window } from "vscode";
+import { workspace, TextDocumentChangeEvent, TextDocument, window, debug } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
+import imageKeys from "./imageKeys.json";
+import * as vscode from "vscode";
 
 let currentRPC: Presence = {
 	details: "Just launched VSCode",
 	state: "No file opened yet",
-	smallImageKey: "vscode2",
-	smallImageText: "😳",
-    largeImageKey: "vscode2",
+	smallImageKey: "active",
+	smallImageText: "Active in VSCode",
+    largeImageKey: "vscode",
 	largeImageText: "What will he code?!? 😳",
 };
 
@@ -35,7 +37,7 @@ function activateRPC() {
 
 	// once connected, start sending rich presence requests and listening to the vscode api
 	rpc.on("ready", () => {
-		
+
 		// set "vscode just launched" presence
 		startTimestamp = new Date();
 		rpc.setActivity(currentRPC);
@@ -44,6 +46,7 @@ function activateRPC() {
 		setInterval(() => {
 			if(!window.state.focused) {
 				currentRPC.smallImageText = "Tabbed out of VSCode 😮";
+				currentRPC.smallImageKey = "inactive"
 				rpc.setActivity(currentRPC);
 			}
 		}, 1000*60);
@@ -56,23 +59,39 @@ function setRPCByFile(document: TextDocument, eventType: EventType) {
 
 	const fileName = resolveFileName(document.fileName);
 
+	// determine activity verb
 	let activity: string;
-	
-	if(fileName == "input") activity = "managing source control";
+	if(debug.activeDebugSession) activity = "Debugging";
 
 	// catch whether the file has only been opened ( = viewing) or actually edited ( = editing)
-	
-	else if(eventType == "fileOpened") activity = `Viewing ${fileName} | ${document.lineCount} line${document.lineCount == 1 ? "" : "s"}`;
+	else if(eventType == "fileOpened") activity = "Viewing";
+	else activity = "Editing";
 
-	else activity = `Editing ${fileName} | ${document.lineCount} line${document.lineCount == 1 ? "" : "s"}`;
+	let fullActivity: string; 
+
+	if(fileName == "input") activity = "managing source control";
+	
+	else fullActivity = `${activity} ${fileName} | ${document.lineCount} line${document.lineCount == 1 ? "" : "s"}`
+
+	const imageKey: string = imageKeys.find(i => i.matches.includes(document.languageId)).key;
 
 	currentRPC = {
-		details: activity,
-        state: workspace.name ? `in ${workspace.name}` : "No workspace 😳",
-        largeImageKey: "vscode",
-		largeImageText: `${document.languageId}${document.isDirty ? ", unsaved changes" : ""}`,
-		smallImageKey: "vscode",
-        smallImageText: "Busy coding 😎",
+
+		details: fullActivity,
+
+		// catch missing workspace
+		state: workspace.name ? `in ${workspace.name}` : "No workspace 😳",
+
+		// fallback to standard icon if no language-specific image was found
+		largeImageKey: imageKey ? imageKey : "vscode",
+
+		// if there are unsaved changes, add it behind the comma
+		largeImageText: `${document.languageId} file${document.isDirty ? ", unsaved changes" : ""}`,
+		smallImageKey: "active",
+
+		// other option would be "tabbed out"
+		smallImageText: "Active in VSCode",
+		
 		instance: true,
 		startTimestamp
 	};
