@@ -1,4 +1,4 @@
-[
+export const imageKeys = [
 	{
 		"key": "javascript",
 		"matches": ["javascript"]

@@ -2,7 +2,7 @@
 
 import { workspace, TextDocumentChangeEvent, TextDocument, window, debug } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
-import imageKeys from "./imageKeys.json";
+import { imageKeys } from "./imageKeys";
 
 let currentRPC: Presence = {
 	details: "Just launched VSCode",
