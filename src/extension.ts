@@ -83,8 +83,8 @@ export function registerVSCodeEvents() {
 	
 	workspace.onDidOpenTextDocument((document: TextDocument) => {
 
-		// git extension will always log a file open a second time with ".git" attached, we don't want to display these
-		if(document.fileName.endsWith(".git")) return;
+		// git extension will always log a file open a second time as plaintext and with ".git" attached, we don't want to display these
+		if(document.fileName.endsWith(".git") || document.languageId == "plaintext") return;
 
 		// reset timestamp because new file has been opened
 		startTimestamp = new Date();
