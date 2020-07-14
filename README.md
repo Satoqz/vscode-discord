@@ -1,21 +1,13 @@
-# yet-another-discord-presence README
+# Yet another Discord Presence
 
 ## Features
 
-Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code
+Yet another Discord Presence will show information on your current activity in Visual Studio Code on your discord profile
 
 ## Requirements
 
-Discord Desktop Installation.
+Of course your're gonna need to have discord installed on your pc.
 
-## Extension Settings
+### 0.0.3
 
-None
-
-## Known Issues
-
-## Release Notes
-
-### 0.0.1
-
-First Release
+Minor bug fixes, code overhaul

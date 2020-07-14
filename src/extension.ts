@@ -5,7 +5,9 @@ import { Client, register, Presence } from "discord-rpc";
 
 let currentRPC: Presence = {
 	details: "Just launched VSCode",
-    state: "No file opened yet",
+	state: "No file opened yet",
+	smallImageKey: "vscode2",
+	smallImageText: "😳",
     largeImageKey: "vscode2",
 	largeImageText: "What will he code?!? 😳",
 };
@@ -41,7 +43,7 @@ function activateRPC() {
 		// refresh presence every minute to catch unfocusing the window
 		setInterval(() => {
 			if(!window.state.focused) {
-				currentRPC.largeImageText = "Tabbed out of VSCode 😮";
+				currentRPC.smallImageText = "Tabbed out of VSCode 😮";
 				rpc.setActivity(currentRPC);
 			}
 		}, 1000*60);
