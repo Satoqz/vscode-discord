@@ -2,9 +2,13 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"author": "Satoqz",
 	"publisher": "Satoqz",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Satoqz/vscode-discord.git"
+	},
 	"engines": {
 		"vscode": "^1.47.0"
 	},
