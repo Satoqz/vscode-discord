@@ -9,9 +9,9 @@
 		"sourceMap": true,
 		"rootDir": "src",
 		"resolveJsonModule": true,
-		"esModuleInterop": true,
-		"noImplicitReturns": true,
-		"noUnusedParameters": true,
+		"esModuleInterop": true
+		// "noImplicitReturns": true,
+		// "noUnusedParameters": true,
 	},
 	"exclude": [
 		"node_modules",

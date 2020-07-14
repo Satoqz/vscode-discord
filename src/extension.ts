@@ -3,7 +3,6 @@
 import { workspace, TextDocumentChangeEvent, TextDocument, window, debug } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
 import imageKeys from "./imageKeys.json";
-import * as vscode from "vscode";
 
 let currentRPC: Presence = {
 	details: "Just launched VSCode",
@@ -73,7 +72,7 @@ function setRPCByFile(document: TextDocument, eventType: EventType) {
 	
 	else fullActivity = `${activity} ${fileName} | ${document.lineCount} line${document.lineCount == 1 ? "" : "s"}`
 
-	const imageKey: string = imageKeys.find(i => i.matches.includes(document.languageId)).key;
+	const image = imageKeys.find(i => i.matches.includes(document.languageId));
 
 	currentRPC = {
 
@@ -83,7 +82,7 @@ function setRPCByFile(document: TextDocument, eventType: EventType) {
 		state: workspace.name ? `in ${workspace.name}` : "No workspace 😳",
 
 		// fallback to standard icon if no language-specific image was found
-		largeImageKey: imageKey ? imageKey : "vscode",
+		largeImageKey: image ? image.key : "vscode",
 
 		// if there are unsaved changes, add it behind the comma
 		largeImageText: `${document.languageId} file${document.isDirty ? ", unsaved changes" : ""}`,
