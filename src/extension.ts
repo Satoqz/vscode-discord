@@ -58,20 +58,20 @@ function setRPCByFile(document: TextDocument, eventType: EventType) {
 
 	let activity: string;
 	
-	if(fileName == "input") activity = "Managing Source Control";
+	if(fileName == "input") activity = "managing source control";
 
 	// catch whether the file has only been opened ( = viewing) or actually edited ( = editing)
 	
-	else if(eventType == "fileOpened") activity = `Viewing ${fileName} (${document.languageId})`;
+	else if(eventType == "fileOpened") activity = `Viewing ${fileName} | ${document.lineCount} line${document.lineCount == 1 ? "" : "s"}`;
 
-	else activity = `Editing ${fileName} (${document.languageId})`;
+	else activity = `Editing ${fileName} | ${document.lineCount} line${document.lineCount == 1 ? "" : "s"}`;
 
 	currentRPC = {
 		details: activity,
-        state: workspace.name ? `Workspace: ${workspace.name}` : "No workspace 😳",
-        largeImageKey: "vscode2",
-		largeImageText: `${document.lineCount} lines, changes ${document.isDirty ? "unsaved" : "saved"}`,
-		smallImageKey: "vscode2",
+        state: workspace.name ? `in ${workspace.name}` : "No workspace 😳",
+        largeImageKey: "vscode",
+		largeImageText: `${document.languageId}${document.isDirty ? ", unsaved changes" : ""}`,
+		smallImageKey: "vscode",
         smallImageText: "Busy coding 😎",
 		instance: true,
 		startTimestamp
