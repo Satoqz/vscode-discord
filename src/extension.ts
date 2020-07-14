@@ -16,6 +16,8 @@ const clientId = "732565262704050298";
 
 const rpc = new Client({ transport: "ipc" });
 
+type EventType = "fileOpened" | "fileEdited";
+
 export function activate() {
 
 	activateRPC();
@@ -23,75 +25,73 @@ export function activate() {
 }
 
 function activateRPC() {
-	console.log("called");
+
+	// connect to discord
 	register(clientId);
 
 	rpc.login({ clientId }).catch(console.error);
 
+	// once connected, start sending rich presence requests and listening to the vscode api
 	rpc.on("ready", () => {
-		console.log("rpc activated");
+		
+		// set "vscode just launched" presence
 		startTimestamp = new Date();
 		rpc.setActivity(currentRPC);
+
+		// refresh presence every minute to catch unfocusing the window
 		setInterval(() => {
-			if(!window.state.focused) currentRPC.largeImageText = "Tabbed out of VSCode 😮";
-			rpc.setActivity(currentRPC);
+			if(!window.state.focused) {
+				currentRPC.largeImageText = "Tabbed out of VSCode 😮";
+				rpc.setActivity(currentRPC);
+			}
 		}, 1000*60);
+
 		registerVSCodeEvents();
-	})
+	});
 }
 
-function setRPC(line1: string, line2: string, hoverLarge: string, imageLarge: string, hoverSmall: string, imageSmall: string, startTimestamp: Date) {
+function setRPCByFile(document: TextDocument, eventType: EventType) {
+
+	const fileName = resolveFileName(document.fileName);
+
+	let activity: string;
+	
+	if(fileName == "input") activity = "Managing Source Control";
+
+	// catch whether the file has only been opened ( = viewing) or actually edited ( = editing)
+	
+	else if(eventType == "fileOpened") activity = `Viewing ${fileName} (${document.languageId})`;
+
+	else activity = `Editing ${fileName} (${document.languageId})`;
+
 	currentRPC = {
-		details: line1,
-        state: line2,
-        largeImageKey: imageLarge,
-		largeImageText: hoverLarge,
-		smallImageKey: imageSmall,
-        smallImageText: hoverSmall,
+		details: activity,
+        state: workspace.name ? `Workspace: ${workspace.name}` : "No workspace 😳",
+        largeImageKey: "vscode2",
+		largeImageText: `${document.lineCount} lines, changes ${document.isDirty ? "unsaved" : "saved"}`,
+		smallImageKey: "vscode2",
+        smallImageText: "Busy coding 😎",
 		instance: true,
 		startTimestamp
 	};
-	console.log("rpc config updated");
 	rpc.setActivity(currentRPC);
 }
 
 export function registerVSCodeEvents() {
 
-	workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
-		const fileName = resolveFileName(e.document.fileName);
-		let activity: string;
-		if(fileName == "input") activity = "Managing Source Control";
-		else activity = `Editing ${fileName} (${e.document.languageId})`;
-		setRPC(
-			activity,
-			workspace.name ? `Workspace: ${workspace.name}` : "No workspace 😳",
-			"Busy using VSCode",
-			"vscode2",
-			`${e.document.lineCount} lines, changes ${e.document.isDirty ? "unsaved" : "saved"}`,
-			"vscode2",
-			startTimestamp
-		);
-	});
+	workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setRPCByFile(e.document, "fileEdited"));
+	
 	workspace.onDidOpenTextDocument((document: TextDocument) => {
-		console.log("document opened");
-		if(document.fileName.endsWith(".git")) return;
-		startTimestamp = new Date();
-		const fileName = resolveFileName(document.fileName);
-		let activity: string;
-		if(fileName == "input") activity = "Managing Source Control";
-		else activity = `Viewing ${fileName} (${document.languageId})`;
-		setRPC(
-			activity,
-			workspace.name ? `Workspace: ${workspace.name}` : "No workspace 😳",
-			"Busy using VSCode",
-			"vscode2",
-			`${document.lineCount} lines, changes ${document.isDirty ? "unsaved" : "saved"}`,
-			"vscode2",
-			startTimestamp
-		);
-	});
 
-	console.log("events registered");
+		// git extension will always log a file open a second time with ".git" attached, we don't want to display these
+		if(document.fileName.endsWith(".git")) return;
+
+		// reset timestamp because new file has been opened
+		startTimestamp = new Date();
+
+		setRPCByFile(document, "fileOpened");
+	});
 }
 
-const resolveFileName = (file: string): string | undefined => file.split("\\").pop()?.replace("git", "");
+// will remove the path and leave the actual filename
+const resolveFileName = (file: string): string | undefined => file.split("\\").pop();
