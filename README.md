@@ -2,24 +2,24 @@
 
 ## Features
 
-Yet another Discord Presence will show information on your current activity in Visual Studio Code on your discord profile
+Features include indication of:
+
+- File-, language and Workspacename
+
+- Introducing VSCode Status: Are you actually coding or tabbed out?
+
+- If you're editing, debugging or just viewing a file
+
+- For how long you've been editing your current file 
+
+- If your file is unsaved
+
+- Amount of lines in your file
+
+- The line you're currently editing
+
+- Icons for some filetypes, more will be added soon to provide a more all around coverage
 
 ## Requirements
 
-Of course your're gonna need to have discord installed on your pc.
-
-### 0.0.5
-
-Added first icons (ts & js)
-
-Added icons to show (in-)activity
-
-### 0.0.8
-
-Made it sooooo much better omg
-
-### 0.0.9
-
-Bugfixes
-
-Python + Haskell support
+- Discord desktop installation

@@ -1,5 +1,4 @@
 /.vscode
 /node_modules
 /out
-/vsc-extension-quickstart.md
 *.vsix

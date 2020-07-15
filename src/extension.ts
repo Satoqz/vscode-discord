@@ -1,5 +1,5 @@
-//this is horrible, i made it for fun only, okay ????? OKAY !!!!!
-import { workspace, TextDocumentChangeEvent, window, debug, ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor } from "vscode";
+// this is horrible, i made it for fun only, okay ????? OKAY !!!!!
+import { workspace, TextDocumentChangeEvent, window, debug, ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, languages } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
 import { imageKeys } from "./imageKeys";
 
@@ -12,6 +12,8 @@ const rpc = new Client({ transport: "ipc" });
 let statusBar: StatusBarItem;
 
 let activeTimeout: NodeJS.Timeout;
+
+let errorCount: number = 0;
 
 export function activate(context: ExtensionContext) {
 
@@ -29,7 +31,6 @@ function activateRPC() {
 
 	// connect to discord
 	register(clientId);
-
 	rpc.login({ clientId }).catch(console.error);
 
 	// once connected, start sending rich presence requests and listening to the vscode api
@@ -64,11 +65,10 @@ function activateRPC() {
 function registerVSCodeEvents() {
 
 	workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
-
 		// determine activity verb
 		const activity: string = debug.activeDebugSession ? "Debugging" : "Editing";
 		
-		rpcData.details = `${activity} ${resolveFileName(e.document.fileName)}`;
+		rpcData.details = `${activity} ${resolveFileName(e.document.fileName)} | ${errorCount} problem${errorCount == 1?"":"s"} found`;
 
 		//current line count sometimes lacks behind when removing a lot of lines, wo we'll sync it
 		const currentLine = window.activeTextEditor.selection.active.line + 1 > e.document.lineCount ? e.document.lineCount : window.activeTextEditor.selection.active.line + 1;
@@ -84,26 +84,52 @@ function registerVSCodeEvents() {
 	});
 
 	window.onDidChangeActiveTextEditor((e: TextEditor) => {
+		// will be undefined if no TextEditor is open anymore (editor closed instead of switched)
+		if(e) {
+			// determine activity verb
+			// file has only been opened, so just "viewing"
+			const activity: string = debug.activeDebugSession ? "Debugging" : "Viewing";
+		
+			rpcData.details = `${activity} ${resolveFileName(e.document.fileName)} | ${errorCount} problem${errorCount == 1?"":"s"} found`;
 
-		// determine activity verb
-		// file has only been opened, so just "viewing"
-		const activity: string = debug.activeDebugSession ? "Debugging" : "Viewing";
-	
-		rpcData.details = `${activity} ${resolveFileName(e.document.fileName)}`;
+			// catch missing workspace
+			rpcData.state = workspace.name ? `in ${workspace.name}` : "No workspace 😳";
 
-		// new file, new timer
-		rpcData.startTimestamp = new Date();
+			setImageByLang(e.document.languageId);
 
-		// catch missing workspace
-		rpcData.state = workspace.name ? `in ${workspace.name}` : "No workspace 😳";
+			rpcData.largeImageText = `${e.document.languageId} file, ${e.document.lineCount} line${e.document.lineCount == 1 ? "" : "s"}`;
 
-		setImageByLang(e.document.languageId);
+			setActive(true);
 
-		rpcData.largeImageText = `${e.document.languageId} file, ${e.document.lineCount} line${e.document.lineCount == 1 ? "" : "s"}`;
+			// new file status, new timer
+			rpcData.startTimestamp = new Date();
 
-		setActive(true);
+			setRPC();
+		}
+		else {
+			/*	
+			when the file is only switched, this will still be triggered a short time before the actual event
+			To prevent an unnecessary call, let's log the old status, wait half a second and check whether it is still the same
+			Only continue if the status is still the same, indicating that the editor has actually been closed and not just changed
+			*/
+			const temp = rpcData.details;
+			setTimeout(() => {
+				if(temp == rpcData.details) {
+					rpcData.details = "No file opened";
 
-		setRPC();
+					rpcData.largeImageKey = "vscode";
+
+					rpcData.largeImageText = "Nothing going on 😢"
+
+					rpcData.state = workspace.name ? `in ${workspace.name}` : "No workspace 😳";
+
+					// new file status, new timer
+					rpcData.startTimestamp = new Date();
+
+					setRPC();
+				}
+			}, 500)
+		}
 	});
 
 	//catch debug session start and stop immediately
@@ -118,6 +144,18 @@ function registerVSCodeEvents() {
 		// same thing in reverse
 		rpcData.details = `Viewing ${rpcData.details.split(" ").slice(1, Infinity).join(" ")}`;
 		setRPC();
+	});
+
+	languages.onDidChangeDiagnostics((e) => {
+		console.log(e);
+		const diag = languages.getDiagnostics();
+		let counted: number = 0;
+		diag.forEach(i => {
+			if(i[1]) {
+				i[1].forEach(() => counted++)
+			}
+		})
+		errorCount = counted;
 	});
 }
 

@@ -15,3 +15,9 @@ Made it sooooo much better omg
 Bugfixes
 
 Python + Haskell support
+
+### 0.1.0
+
+Tons of bugfixes
+
+The amount of errors in your workspace will now be exposed on discord :^)
