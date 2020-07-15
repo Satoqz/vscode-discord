@@ -1,16 +1,17 @@
 //this is horrible, i made it for fun only, okay ????? OKAY !!!!!
-
+import * as vscode from "vscode"
 import { workspace, TextDocumentChangeEvent, TextDocument, window, debug } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
 import { imageKeys } from "./imageKeys";
 
-let currentRPC: Presence = {
-	details: "Just launched VSCode",
-	state: "No file opened yet",
+const rpcData: Presence = {
+	details: "Just launched",
+	state: "No file edited yet",
 	smallImageKey: "active",
 	smallImageText: "Active in VSCode",
     largeImageKey: "vscode",
 	largeImageText: "What will he code?!? 😳",
+	instance: true
 };
 
 let startTimestamp: Date;
@@ -18,8 +19,6 @@ let startTimestamp: Date;
 const clientId = "732565262704050298";
 
 const rpc = new Client({ transport: "ipc" });
-
-type EventType = "fileOpened" | "fileEdited";
 
 export function activate() {
 
@@ -39,78 +38,63 @@ function activateRPC() {
 
 		// set "vscode just launched" presence
 		startTimestamp = new Date();
-		rpc.setActivity(currentRPC);
+		setRPC();
 
 		// refresh presence every minute to catch unfocusing the window
 		setInterval(() => {
-			if(!window.state.focused) {
-				currentRPC.smallImageText = "Tabbed out of VSCode 😮";
-				currentRPC.smallImageKey = "inactive"
-				rpc.setActivity(currentRPC);
-			}
+
+			rpcData.smallImageText = `${window.state.focused ? "Active" : "Inactive"} in VSCode`;
+			rpcData.smallImageKey = window.state.focused ? "active" : "inactive";
+			setRPC();
+
 		}, 1000*60);
 
 		registerVSCodeEvents();
 	});
 }
 
-function setRPCByFile(document: TextDocument, eventType: EventType) {
+function registerVSCodeEvents() {
 
-	const fileName = resolveFileName(document.fileName);
+	workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
+
+	const fileName = resolveFileName(e.document.fileName);
 
 	// determine activity verb
 	let activity: string;
 	if(debug.activeDebugSession) activity = "Debugging";
-
-	// catch whether the file has only been opened ( = viewing) or actually edited ( = editing)
-	else if(eventType == "fileOpened") activity = "Viewing";
 	else activity = "Editing";
 
 	let fullActivity: string; 
 
-	if(fileName == "input") activity = "managing source control";
+	if(fileName == "input") fullActivity = "managing source control";
 	
-	else fullActivity = `${activity} ${fileName} | ${document.lineCount} line${document.lineCount == 1 ? "" : "s"}`
+	else fullActivity = `${activity} ${fileName}`;
 
-	const image = imageKeys.find(i => i.matches.includes(document.languageId));
+	const image = imageKeys.find(i => i.matches.includes(e.document.languageId));
 
-	currentRPC = {
+	// fallback to standard icon if no language-specific image was found
+	rpcData.largeImageKey = image ? image.key : "vscode";
 
-		details: fullActivity,
+	// catch missing workspace
+	rpcData.state = workspace.name ? `in ${workspace.name}` : "No workspace 😳";
+	
+	// if there are unsaved changes, add it behind the comma
+	rpcData.largeImageText = `${e.document.languageId} file, 
+	on line ${window.activeTextEditor.selection.active.line + 1}/${e.document.lineCount}
+	${e.document.isDirty ? ", unsaved changes" : ""}`;
 
-		// catch missing workspace
-		state: workspace.name ? `in ${workspace.name}` : "No workspace 😳",
+	rpcData.smallImageKey = "active";
+	rpcData.smallImageText = "Active in VSCode";
+	rpcData.startTimestamp = startTimestamp;
+	rpcData.details = fullActivity;
 
-		// fallback to standard icon if no language-specific image was found
-		largeImageKey: image ? image.key : "vscode",
+	setRPC();
 
-		// if there are unsaved changes, add it behind the comma
-		largeImageText: `${document.languageId} file${document.isDirty ? ", unsaved changes" : ""}`,
-		smallImageKey: "active",
-
-		// other option would be "tabbed out"
-		smallImageText: "Active in VSCode",
-		
-		instance: true,
-		startTimestamp
-	};
-	rpc.setActivity(currentRPC);
+	});
 }
 
-export function registerVSCodeEvents() {
-
-	workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => setRPCByFile(e.document, "fileEdited"));
-	
-	workspace.onDidOpenTextDocument((document: TextDocument) => {
-
-		// git extension will always log a file open a second time as plaintext and with ".git" attached, we don't want to display these
-		if(document.fileName.endsWith(".git") || document.languageId == "plaintext") return;
-
-		// reset timestamp because new file has been opened
-		startTimestamp = new Date();
-
-		setRPCByFile(document, "fileOpened");
-	});
+function setRPC() {
+	if(true) rpc.setActivity(rpcData);
 }
 
 // will remove the path and leave the actual filename
