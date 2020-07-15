@@ -70,8 +70,13 @@ function registerVSCodeEvents() {
 		
 		rpcData.details = `${activity} ${resolveFileName(e.document.fileName)}`;
 
+		//current line count sometimes lacks behind when removing a lot of lines, wo we'll sync it
+		const currentLine = window.activeTextEditor.selection.active.line + 1 > e.document.lineCount ? e.document.lineCount : window.activeTextEditor.selection.active.line + 1;
+
+		setImageByLang(e.document.languageId);
+
 		// if there are unsaved changes, add it behind the comma
-		rpcData.largeImageText = `${e.document.languageId} file, on line ${window.activeTextEditor.selection.active.line + 1}/${e.document.lineCount}${e.document.isDirty ? ", unsaved changes" : ""}`;
+		rpcData.largeImageText = `${e.document.languageId} file, on line ${currentLine}/${e.document.lineCount}${e.document.isDirty ? ", unsaved changes" : ""}`;
 		
 		setActive(true);
 
@@ -92,9 +97,7 @@ function registerVSCodeEvents() {
 		// catch missing workspace
 		rpcData.state = workspace.name ? `in ${workspace.name}` : "No workspace 😳";
 
-		const image = imageKeys.find(i => i.matches.includes(e.document.languageId));
-		// fallback to standard icon if no language-specific image was found
-		rpcData.largeImageKey = image ? image.key : "vscode";
+		setImageByLang(e.document.languageId);
 
 		rpcData.largeImageText = `${e.document.languageId} file, ${e.document.lineCount} line${e.document.lineCount == 1 ? "" : "s"}`;
 
@@ -127,6 +130,12 @@ function setActive(active: boolean) {
 	activeTimeout.refresh();
 	rpcData.smallImageKey = active ? "active" : "inactive";
 	rpcData.smallImageText = `${active ? "Active" : "Inactive"} in VSCode`;
+}
+
+function setImageByLang(id: string) {
+	const image = imageKeys.find(i => i.matches.includes(id));
+	// fallback to standard icon if no language-specific image was found
+	rpcData.largeImageKey = image ? image.key : "vscode";
 }
 
 // will remove the path and leave the actual filename

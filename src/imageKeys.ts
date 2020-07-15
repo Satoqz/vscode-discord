@@ -6,5 +6,13 @@ export const imageKeys = [
 	{
 		"key": "typescript",
 		"matches": ["typescript"]
+	},
+	{
+		"key": "haskell",
+		"matches": ["haskell"]
+	},
+	{
+		"key": "python",
+		"matches": ["python"]
 	}
 ]
