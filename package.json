@@ -2,8 +2,9 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"author": "Satoqz",
+	"icon": "icon.png",
 	"publisher": "Satoqz",
 	"repository": {
 		"type": "git",
