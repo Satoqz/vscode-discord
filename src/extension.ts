@@ -1,5 +1,5 @@
 // this is horrible, i made it for fun only, okay ????? OKAY !!!!!
-import { workspace, TextDocumentChangeEvent, window, debug, ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, languages } from "vscode";
+import { workspace, TextDocumentChangeEvent, window, debug, ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, languages, TextDocument } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
 import { imageKeys } from "./imageKeys";
 
@@ -73,7 +73,7 @@ function registerVSCodeEvents() {
 		//current line count sometimes lacks behind when removing a lot of lines, wo we'll sync it
 		const currentLine = window.activeTextEditor.selection.active.line + 1 > e.document.lineCount ? e.document.lineCount : window.activeTextEditor.selection.active.line + 1;
 
-		setImageByLang(e.document.languageId);
+		setImageByLang(e.document);
 
 		// if there are unsaved changes, add it behind the comma
 		rpcData.largeImageText = `${e.document.languageId} file, on line ${currentLine}/${e.document.lineCount}${e.document.isDirty ? ", unsaved changes" : ""}`;
@@ -95,7 +95,7 @@ function registerVSCodeEvents() {
 			// catch missing workspace
 			rpcData.state = workspace.name ? `in ${workspace.name}` : "No workspace 😳";
 
-			setImageByLang(e.document.languageId);
+			setImageByLang(e.document);
 
 			rpcData.largeImageText = `${e.document.languageId} file, ${e.document.lineCount} line${e.document.lineCount == 1 ? "" : "s"}`;
 
@@ -170,11 +170,15 @@ function setActive(active: boolean) {
 	rpcData.smallImageText = `${active ? "Active" : "Inactive"} in VSCode`;
 }
 
-function setImageByLang(id: string) {
-	const image = imageKeys.find(i => i.matches.includes(id));
-	// fallback to standard icon if no language-specific image was found
-	rpcData.largeImageKey = image ? image.key : "vscode";
+function setImageByLang(document: TextDocument) {
+	let image = imageKeys.find(i => i.matches.includes(resolveFileName(document.fileName)));
+	if(!image) image = imageKeys.find(i => i.matches.includes(document.languageId));
+	if(!image) image = imageKeys.find(i => i.matches.includes(resolveFileExtension(document.fileName)));
+	// fallback to standard file icon if no language-specific image was found
+	rpcData.largeImageKey = image ? image.key : "file";
 }
 
 // will remove the path and leave the actual filename
 const resolveFileName = (file: string): string | undefined => file.split("\\").pop();
+
+const resolveFileExtension = (file: string): string | undefined => file.split(".").pop();

@@ -18,7 +18,7 @@ Features include indication of:
 
 - The line you're currently editing
 
-- Icons for some filetypes, more will be added soon to provide a more all around coverage
+- Icons for most filetypes used in programming
 
 ## Requirements
 

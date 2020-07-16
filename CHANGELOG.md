@@ -25,3 +25,7 @@ The amount of errors in your workspace will now be exposed on discord :^)
 ### 0.1.1
 
 Added an icon gg
+
+### 0.1.2
+
+Added a bunch (~50) new file icons
