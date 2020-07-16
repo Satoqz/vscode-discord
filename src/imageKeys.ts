@@ -170,5 +170,9 @@ export const imageKeys = [
 	{
 		"key": "yaml",
 		"matches": ["yaml", "yml"]
+	},
+	{
+		"key": "csharp",
+		"matches": ["csharp", "cs"]
 	}
 ]

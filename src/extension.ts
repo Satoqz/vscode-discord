@@ -65,7 +65,13 @@ function activateRPC() {
 function registerVSCodeEvents() {
 
 	workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
-		// determine activity verb
+
+		if(e.document.languageId == "scminput") {
+			rpcData.largeImageKey = "git";
+			rpcData.details = "Writing a commit message"
+		}
+		else {
+			// determine activity verb
 		const activity: string = debug.activeDebugSession ? "Debugging" : "Editing";
 		
 		rpcData.details = `${activity} ${resolveFileName(e.document.fileName)} | ${errorCount} problem${errorCount == 1?"":"s"} found`;
@@ -77,6 +83,8 @@ function registerVSCodeEvents() {
 
 		// if there are unsaved changes, add it behind the comma
 		rpcData.largeImageText = `${e.document.languageId} file, on line ${currentLine}/${e.document.lineCount}${e.document.isDirty ? ", unsaved changes" : ""}`;
+		}
+		
 		
 		setActive(true);
 
