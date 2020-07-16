@@ -4,7 +4,7 @@
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
 	"version": "0.1.2",
 	"author": "Satoqz",
-	"icon": "icon.png",
+	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
 	"repository": {
 		"type": "git",

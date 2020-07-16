@@ -1,12 +1,16 @@
 # Yet another Discord Presence
 
+![](assets/example1.png)
+
 ## Features
 
 Features include indication of:
 
-- File-, language and Workspacename
+- File, Language and Project name
 
 - Introducing VSCode Status: Are you actually coding or tabbed out?
+
+![](assets/example2.png)
 
 - If you're editing, debugging or just viewing a file
 
@@ -22,4 +26,8 @@ Features include indication of:
 
 ## Requirements
 
-- Discord desktop installation
+### [Discord desktop installation](https://discord.com/download)
+
+## Credits
+
+### [File icons by Laurent Treguier](https://github.com/LaurentTreguier/vscode-simple-icons)

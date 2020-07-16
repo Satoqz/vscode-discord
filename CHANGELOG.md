@@ -28,4 +28,8 @@ Added an icon gg
 
 ### 0.1.2
 
-Added a bunch (~50) new file icons
+Added a bunch of (~50) new file icons
+
+### 1.0.0
+
+Updated README to something decent, let's call this the first real release then
