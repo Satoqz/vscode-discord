@@ -37,3 +37,7 @@ Updated README to something decent, let's call this the first real release then
 ### 1.0.1
 
 Now works in remote also...
+
+### 1.0.2
+
+Made problem counter more accurate

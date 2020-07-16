@@ -1,5 +1,5 @@
 // this is horrible, i made it for fun only, okay ????? OKAY !!!!!
-import { workspace, TextDocumentChangeEvent, window, debug, ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, languages, TextDocument } from "vscode";
+import { workspace, TextDocumentChangeEvent, window, debug, ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, languages, TextDocument, DiagnosticSeverity } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
 import { imageKeys } from "./imageKeys";
 
@@ -146,15 +146,16 @@ function registerVSCodeEvents() {
 		setRPC();
 	});
 
-	languages.onDidChangeDiagnostics((e) => {
-		console.log(e);
+	languages.onDidChangeDiagnostics(() => {
 		const diag = languages.getDiagnostics();
 		let counted: number = 0;
 		diag.forEach(i => {
 			if(i[1]) {
-				i[1].forEach(() => counted++)
+				i[1].forEach(i => {
+					if(i.severity == DiagnosticSeverity.Warning || i.severity == DiagnosticSeverity.Error) counted++;
+				});
 			}
-		})
+		});
 		errorCount = counted;
 	});
 }
