@@ -1,7 +1,7 @@
 // this is horrible, i made it for fun only, okay ????? OKAY !!!!!
 import { workspace, TextDocumentChangeEvent, window, debug, ExtensionContext, StatusBarAlignment, StatusBarItem, TextEditor, languages, TextDocument, DiagnosticSeverity } from "vscode";
 import { Client, register, Presence } from "discord-rpc";
-import { imageKeys } from "./imageKeys";
+import imageKeys from "./imageKeys.json";
 
 const rpcData: Presence = {};
 
@@ -19,9 +19,8 @@ export function activate(context: ExtensionContext) {
 
 	statusBar = window.createStatusBarItem(StatusBarAlignment.Left, 100);
 	context.subscriptions.push(statusBar);
-	statusBar.text = "Connecting to Discord...";
+	statusBar.text = "$(vm-connect) Connecting to Discord...";
 	statusBar.show();
-	statusBar.tooltip
 
 	activateRPC();
 
@@ -36,7 +35,7 @@ function activateRPC() {
 	// once connected, start sending rich presence requests and listening to the vscode api
 	rpc.on("ready", () => {
 		
-		statusBar.text = "Connected to Discord";
+		statusBar.text = "$(vm-active) Connected to Discord";
 
 		// set "vscode just launched" presence
 		rpcData.details = "No file opened";

@@ -1,4 +1,4 @@
-export const imageKeys = [
+[
 	{
 		"key": "npm",
 		"matches": ["package.json", "npmignore", "package-lock.json"]
