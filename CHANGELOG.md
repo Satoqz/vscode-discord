@@ -41,3 +41,7 @@ Now works in remote also...
 ### 1.0.2
 
 Made problem counter more accurate
+
+### 1.0.5
+
+Made some good changes

@@ -2,7 +2,7 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"author": "Satoqz",
 	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
@@ -20,6 +20,13 @@
 	"extensionKind": [
 		"ui",
 		"workspace"
+	],
+	"keywords": [
+		"discord",
+		"presence",
+		"rich presence",
+		"rpc",
+		"game status"
 	],
 	"activationEvents": [
 		"*"

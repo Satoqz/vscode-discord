@@ -9,22 +9,19 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "@typescript-eslint/class-name-casing": "warn",
-        "@typescript-eslint/semi": "warn",
-        "curly": "warn",
-        "eqeqeq": "warn",
-        "no-throw-literal": "warn",
+        "@typescript-eslint/class-name-casing": "error",
+        "@typescript-eslint/semi": "error",
+        "no-throw-literal": "error",
 		"indent": [
-			"tab",
-			"warn",
-			4
+			"error",
+			"tab"
 		],
 		"linebreak-style": [
-			"warn",
+			"error",
 			"unix"
 		],
 		"quotes": [
-			"warn",
+			"error",
 			"double"
 		],
 		"semi": [

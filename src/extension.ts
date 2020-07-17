@@ -19,7 +19,8 @@ export function activate(context: ExtensionContext) {
 
 	statusBar = window.createStatusBarItem(StatusBarAlignment.Left, 100);
 	context.subscriptions.push(statusBar);
-	statusBar.text = "$(vm-connect) Connecting to Discord...";
+	statusBar.text = "$(vm-connect)";
+	statusBar.tooltip = "Connecting to Discord...";
 	statusBar.show();
 
 	activateRPC();
@@ -35,7 +36,8 @@ function activateRPC() {
 	// once connected, start sending rich presence requests and listening to the vscode api
 	rpc.on("ready", () => {
 		
-		statusBar.text = "$(vm-active) Connected to Discord";
+		statusBar.text = "$(vm-active)";
+		statusBar.tooltip = "Connected to Discord";
 
 		// set "vscode just launched" presence
 		rpcData.details = "No file opened";
@@ -67,21 +69,21 @@ function registerVSCodeEvents() {
 
 		if(e.document.languageId == "scminput") {
 			rpcData.largeImageKey = "git";
-			rpcData.details = "Writing a commit message"
+			rpcData.details = "Writing a commit message";
 		}
 		else {
 			// determine activity verb
-		const activity: string = debug.activeDebugSession ? "Debugging" : "Editing";
+			const activity: string = debug.activeDebugSession ? "Debugging" : "Editing";
 		
-		rpcData.details = `${activity} ${resolveFileName(e.document.fileName)} | ${errorCount} problem${errorCount == 1?"":"s"} found`;
+			rpcData.details = `${activity} ${resolveFileName(e.document.fileName)} | ${errorCount} problem${errorCount == 1?"":"s"} found`;
 
-		//current line count sometimes lacks behind when removing a lot of lines, wo we'll sync it
-		const currentLine = window.activeTextEditor.selection.active.line + 1 > e.document.lineCount ? e.document.lineCount : window.activeTextEditor.selection.active.line + 1;
+			//current line count sometimes lacks behind when removing a lot of lines, wo we'll sync it
+			const currentLine = window.activeTextEditor.selection.active.line + 1 > e.document.lineCount ? e.document.lineCount : window.activeTextEditor.selection.active.line + 1;
 
-		setImageByLang(e.document);
+			setImageByLang(e.document);
 
-		// if there are unsaved changes, add it behind the comma
-		rpcData.largeImageText = `${e.document.languageId} file, on line ${currentLine}/${e.document.lineCount}${e.document.isDirty ? ", unsaved changes" : ""}`;
+			// if there are unsaved changes, add it behind the comma
+			rpcData.largeImageText = `${e.document.languageId} file, on line ${currentLine}/${e.document.lineCount}${e.document.isDirty ? ", unsaved changes" : ""}`;
 		}
 		
 		
@@ -126,7 +128,7 @@ function registerVSCodeEvents() {
 
 					rpcData.largeImageKey = "vscode";
 
-					rpcData.largeImageText = "Nothing going on 😢"
+					rpcData.largeImageText = "Nothing going on 😢";
 
 					rpcData.state = workspace.name ? `in ${workspace.name}` : "No workspace 😳";
 
@@ -135,7 +137,7 @@ function registerVSCodeEvents() {
 
 					setRPC();
 				}
-			}, 500)
+			}, 500);
 		}
 	});
 
