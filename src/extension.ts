@@ -189,6 +189,6 @@ function setImageByLang(document: TextDocument) {
 }
 
 // will remove the path and leave the actual filename
-const resolveFileName = (file: string): string | undefined => file.split("\\").pop();
+const resolveFileName = (file: string): string | undefined => file.split(/(\/)+|(\\)+/).pop();
 
 const resolveFileExtension = (file: string): string | undefined => file.split(".").pop();
