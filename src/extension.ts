@@ -67,6 +67,8 @@ function registerVSCodeEvents() {
 
 	workspace.onDidChangeTextDocument((e: TextDocumentChangeEvent) => {
 
+		if(e.document.fileName.endsWith(".git")) return;
+
 		if(e.document.languageId == "scminput") {
 			rpcData.largeImageKey = "git";
 			rpcData.details = "Writing a commit message";
