@@ -184,8 +184,8 @@ function setActive(active: boolean) {
 
 function setImageByLang(document: TextDocument) {
 	let image = imageKeys.find(i => i.matches.includes(resolveFileName(document.fileName)));
-	if(!image) image = imageKeys.find(i => i.matches.includes(document.languageId));
 	if(!image) image = imageKeys.find(i => i.matches.includes(resolveFileExtension(document.fileName)));
+	if(!image) image = imageKeys.find(i => i.matches.includes(document.languageId));
 	// fallback to standard file icon if no language-specific image was found
 	rpcData.largeImageKey = image ? image.key : "file";
 }
