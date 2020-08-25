@@ -24,6 +24,10 @@
 		"matches": ["config", "env"]
 	},
 	{
+		"key": "actionscript",
+		"matches": ["as", "ActionScript3"]
+	},
+	{
 		"key": "svg",
 		"matches": ["svg"]
 	},

@@ -88,7 +88,10 @@ function registerVSCodeEvents()
 			rpcData.details = `${activity} ${resolveFileName(e.document.fileName)} | ${errorCount} problem${errorCount == 1?"":"s"} found`;
 
 			//current line count sometimes lacks behind when removing a lot of lines, wo we'll sync it
-			const currentLine = window.activeTextEditor.selection.active.line + 1 > e.document.lineCount ? e.document.lineCount : window.activeTextEditor.selection.active.line + 1;
+			const currentLine =
+				window.activeTextEditor.selection.active.line + 1 > e.document.lineCount
+					? e.document.lineCount
+					: window.activeTextEditor.selection.active.line + 1;
 
 			setImageByLang(e.document);
 
@@ -182,7 +185,10 @@ function registerVSCodeEvents()
 			{
 				i[1].forEach(i =>
 				{
-					if (i.severity == DiagnosticSeverity.Warning || i.severity == DiagnosticSeverity.Error) counted++;
+					if (
+						i.severity == DiagnosticSeverity.Warning
+						|| i.severity == DiagnosticSeverity.Error
+					) counted++;
 				});
 			}
 		});
@@ -205,9 +211,12 @@ function setActive(active: boolean)
 
 function setImageByLang(document: TextDocument)
 {
-	let image = imageKeys.find(i => i.matches.includes(resolveFileName(document.fileName)));
-	if (!image) image = imageKeys.find(i => i.matches.includes(resolveFileExtension(document.fileName)));
-	if (!image) image = imageKeys.find(i => i.matches.includes(document.languageId));
+	let image = imageKeys.find(i =>
+		i.matches.includes(resolveFileName(document.fileName)));
+	if (!image) image = imageKeys.find(i =>
+		i.matches.includes(resolveFileExtension(document.fileName)));
+	if (!image) image = imageKeys.find(i =>
+		i.matches.includes(document.languageId));
 	// fallback to standard file icon if no language-specific image was found
 	rpcData.largeImageKey = image ? image.key : "file";
 }
