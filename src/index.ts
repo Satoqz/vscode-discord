@@ -41,9 +41,10 @@ function listen(parser: Parser, config: WorkspaceConfiguration) {
 		debugEnd = debug.onDidTerminateDebugSession,
 		diagnostictsChange = languages.onDidChangeDiagnostics;
 
-	fileSwitch((e: TextEditor) => parser.fileSwitch(e));
-
-	fileEdit((e: TextDocumentChangeEvent) => parser.fileEdit(e));
+	if (config.get("showFile") === true) {
+		fileSwitch((e: TextEditor) => parser.fileSwitch(e));
+		fileEdit((e: TextDocumentChangeEvent) => parser.fileEdit(e));
+	}
 
 	if (config.get("showDebugging") === true) {
 		debugStart(() => parser.toggleDebug());
@@ -51,7 +52,7 @@ function listen(parser: Parser, config: WorkspaceConfiguration) {
 	}
 
 	if (config.get("showProblems") === true)
-		diagnostictsChange((e: DiagnosticChangeEvent) => parser.diagnosticsChange(e));
+		diagnostictsChange(() => parser.diagnosticsChange());
 }
 
 function checkActivity(parser: Parser, interval: number) {

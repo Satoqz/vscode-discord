@@ -3,7 +3,7 @@ import { StatusBarAlignment, StatusBarItem, window, WorkspaceConfiguration } fro
 
 export class Client {
 
-	constructor(config: WorkspaceConfiguration) {
+	constructor(private config: WorkspaceConfiguration) {
 
 		const statusBar = window.createStatusBarItem(StatusBarAlignment.Left, 100);
 		statusBar.text = "$(vm-connect)";
@@ -12,18 +12,12 @@ export class Client {
 		if (config.get("showStatusBar") == true)
 			statusBar.show();
 
-		this.rpc.login({ clientId: config.get<string>("clientID") });
-
-		this.rpc.once("ready", () => {
-			this.ready = true;
-			statusBar.text = "$(vm-active)";
-			statusBar.tooltip = "RPC Connected to Discord";
-		});
-
 		this.statusBar = statusBar;
+
+		this.connect();
 	}
 
-	public async set(options: Presence) {
+	public set(options: Presence) {
 		if (!this.ready)
 			this.rpc.once("ready", () => this._set(options));
 		else
@@ -31,12 +25,30 @@ export class Client {
 	}
 
 	private _set(options: Presence) {
-		this.rpc.setActivity(options);
+		if (this.rpc)
+			this.rpc.setActivity(options);
+	}
+
+	public disconnect() {
+		if (this.rpc)
+			this.rpc.destroy();
+		this.ready = false;
+	}
+
+	public connect() {
+		this.disconnect();
+		this.rpc = new RPCClient({ transport: "ipc" });
+		this.rpc.login({ clientId: this.config.get<string>("clientID") });
+		this.rpc.once("ready", () => {
+			this.ready = true;
+			this.statusBar.text = "$(vm-active)";
+			this.statusBar.tooltip = "RPC Connected to Discord";
+		});
 	}
 
 	private ready = false
 
-	private rpc = new RPCClient({ transport: "ipc" })
+	private rpc: RPCClient
 
 	public statusBar: StatusBarItem
 }

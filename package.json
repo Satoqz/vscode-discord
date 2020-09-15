@@ -2,7 +2,7 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "1.0.9",
+	"version": "1.2.0",
 	"author": "Satoqz",
 	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
@@ -98,6 +98,11 @@
 					"default": true,
 					"description": "Whether or not to show the name of your workspace"
 				},
+				"rpc.showTime": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show the elapsed time"
+				},
 				"rpc.hideFiles": {
 					"type": "array",
 					"default": [],
@@ -139,13 +144,23 @@
 				},
 				"rpc.debuggingText": {
 					"type": "string",
-					"default": "Viewing {file}",
+					"default": "Debugging {file}",
 					"description": "Syntax of the text displayed when you are debugging. {file} will be replaced by the name of the opened file"
 				},
 				"rpc.workspaceText": {
 					"type": "string",
 					"default": "In {workspace}",
 					"description": "Syntax of the text displaying your workspace name. {workspace} will be replaced by the name of your workspace"
+				},
+				"rpc.problemsText": {
+					"type": "string",
+					"default": " | {count} problems found",
+					"description": "Syntax of the text displaying the amount of problems in your workspace. {count} will be replaced by the respective amount of problems"
+				},
+				"rpc.noFileOpenedText": {
+					"type": "string",
+					"default": "No file opened",
+					"description": "The text that will be displayed when you closed all editors / files"
 				}
 			}
 		}
