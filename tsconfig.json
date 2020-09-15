@@ -1,12 +1,12 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "es6",
-		"outDir": "out",
+		"target": "ESNext",
+		"outDir": "build",
 		"lib": [
-			"es6"
+			"ESNext"
 		],
-		"sourceMap": true,
+		"sourceMap": false,
 		"rootDir": "src",
 		"esModuleInterop": true,
 		"resolveJsonModule": true,

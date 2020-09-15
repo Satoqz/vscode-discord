@@ -2,7 +2,7 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "1.0.9",
+	"version": "1.2.0",
 	"author": "Satoqz",
 	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
@@ -11,7 +11,7 @@
 		"url": "https://github.com/Satoqz/vscode-discord.git"
 	},
 	"engines": {
-		"vscode": "^1.48.0"
+		"vscode": "^1.49.0"
 	},
 	"categories": [
 		"Visualization",
@@ -31,7 +31,7 @@
 	"activationEvents": [
 		"*"
 	],
-	"main": "./out/extension.js",
+	"main": "./build/index.js",
 	"scripts": {
 		"vscode:prepublish": "npm run build",
 		"build": "tsc -p ./",
@@ -42,8 +42,6 @@
 		"@types/discord-rpc": "^3.0.4",
 		"@types/node": "^14.10.1",
 		"@types/vscode": "^1.49.0",
-		"@typescript-eslint/eslint-plugin": "^2.30.0",
-		"@typescript-eslint/parser": "^2.30.0",
 		"eslint": "^6.8.0",
 		"eslint-config-subaru": "^1.1.4",
 		"typescript": "^4.0.2",
@@ -53,6 +51,124 @@
 		"discord-rpc": "^3.1.4"
 	},
 	"eslintConfig": {
-		"extends": "subaru"
+		"extends": "subaru",
+		"rules": {
+			"brace-style": [
+				1,
+				"1tbs"
+			]
+		}
+	},
+	"contributes": {
+		"configuration": {
+			"title": "Discord Rich Presence Config",
+			"properties": {
+				"rpc.clientID": {
+					"type": "string",
+					"default": "732565262704050298",
+					"description": "Discord Rich Prensence Client ID. Change only if you know exactly what youre doing"
+				},
+				"rpc.showStatusBar": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show a little icon at the bottom left that indicates the connection to the Discord Client"
+				},
+				"rpc.showIdle": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show an indicator icon whether you're idle or busy in VSCode"
+				},
+				"rpc.checkIdleInterval": {
+					"type": "number",
+					"default": 60,
+					"description": "How often to check (in seconds) if your VSCode window is focused. Only relevant if `showIdle` is set to true"
+				},
+				"rpc.showDebugging": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show when you're debugging"
+				},
+				"rpc.showFile": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show the name of the file you're working on"
+				},
+				"rpc.showWorkspace": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show the name of your workspace"
+				},
+				"rpc.showTime": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show the elapsed time"
+				},
+				"rpc.hideFiles": {
+					"type": "array",
+					"default": [],
+					"items": {
+						"type": "string"
+					},
+					"description": "Array of regular expressions to match file names that should not be shown"
+				},
+				"rpc.hideWorkspaces": {
+					"type": "array",
+					"default": [],
+					"items": {
+						"type": "string"
+					},
+					"description": "Array of regular expressions to match workspace names that should not be shown"
+				},
+				"rpc.ignoreWorkspaces": {
+					"type": "array",
+					"default": [],
+					"items": {
+						"type": "string"
+					},
+					"description": "Array of regular expressions to match workspace names that should prevent the extension from starting"
+				},
+				"rpc.showProblems": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show the count of problems (warnings, errors) present in your workspace"
+				},
+				"rpc.editingText": {
+					"type": "string",
+					"default": "Editing {file}",
+					"description": "Syntax of the text displayed when you are editing a file. {file} will be replaced by the according file name"
+				},
+				"rpc.viewingText": {
+					"type": "string",
+					"default": "Viewing {file}",
+					"description": "Syntax of the text displayed when you are viewing a file. {file} will be replaced by the according file name"
+				},
+				"rpc.debuggingText": {
+					"type": "string",
+					"default": "Debugging {file}",
+					"description": "Syntax of the text displayed when you are debugging. {file} will be replaced by the name of the opened file"
+				},
+				"rpc.workspaceText": {
+					"type": "string",
+					"default": "In {workspace}",
+					"description": "Syntax of the text displaying your workspace name. {workspace} will be replaced by the name of your workspace"
+				},
+				"rpc.problemsText": {
+					"type": "string",
+					"default": " | {count} problems found",
+					"description": "Syntax of the text displaying the amount of problems in your workspace. {count} will be replaced by the respective amount of problems"
+				},
+				"rpc.noFileOpenedText": {
+					"type": "string",
+					"default": "No file opened",
+					"description": "The text that will be displayed when you closed all editors / files"
+				}
+			}
+		}
+	},
+	"discord": {
+		"discord": {
+			"clientID": "732565262704050298"
+		},
+		"clientID": "732565262704050298"
 	}
 }

@@ -45,3 +45,7 @@ Made problem counter more accurate
 ### 1.0.5
 
 Made some good changes
+
+### 1.2.0
+
+Added a few config options to customize the RPC appearance

@@ -6,7 +6,7 @@
 
 Features include indication of:
 
-- File, Language and Project name
+- File name, workspace and language
 
 - Introducing VSCode Status: Are you actually coding or tabbed out?
 
@@ -14,9 +14,9 @@ Features include indication of:
 
 - If you're editing, debugging or just viewing a file
 
-- For how long you've been editing your current file 
+- Customizable messages for all features mentioned above
 
-- If your file is unsaved
+- For how long you've been working in VSCode
 
 - Amount of lines in your file
 
@@ -24,10 +24,12 @@ Features include indication of:
 
 - Icons for most filetypes used in programming
 
+- If you're brave, an indication of the amount of problems in your workspace
+
 ## Requirements
 
 ### [Discord desktop installation](https://discord.com/download)
 
 ## Credits
 
-### [File icons by Laurent Treguier](https://github.com/LaurentTreguier/vscode-simple-icons)
+### Slightly modified [file icons by Laurent Treguier](https://github.com/LaurentTreguier/vscode-simple-icons)
