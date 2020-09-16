@@ -2,7 +2,7 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"author": "Satoqz",
 	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
@@ -184,8 +184,8 @@
 				},
 				"RPC.fileInfoText": {
 					"type": "string",
-					"default": "{language} file, on line {column} of {linecount}",
-					"description": "The text displayed when hovering the large image showing more information on the file that you're editing. Use {language}. {column} and {linecount} to display the wanted information"
+					"default": "{language} file, on line {currentline} of {linecount}",
+					"description": "The text displayed when hovering the large image showing more information on the file that you're editing. Use {language}, {currentline} and {linecount} to display the wanted information"
 				}
 			}
 		}

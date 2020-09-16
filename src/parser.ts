@@ -77,12 +77,12 @@ export class Parser
 	private makeFileInfo(document: TextDocument)
 	{
 		const linecount = document.lineCount;
-		const column = window.activeTextEditor.selection.active.line + 1 > linecount
+		const currentline = window.activeTextEditor.selection.active.line + 1 > linecount
 			? linecount
 			: window.activeTextEditor.selection.active.line + 1;
 		return this.config.get<string>("fileInfoText")
 			.replace(/{linecount}/g, linecount.toString())
-			.replace(/{column}/g, column.toString())
+			.replace(/{currentline}/g, currentline.toString())
 			.replace(/{language}/g, document.languageId);
 	}
 
