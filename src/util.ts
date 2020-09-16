@@ -1,15 +1,16 @@
 import { TextDocument } from "vscode";
 import icons from "./icons.json";
 
-export function testRegexArray(text: string, expressions: string[]) {
-	for (const expr of expressions) {
-		if (!new RegExp(expr).test(text))
+export function testRegexArray(text: string, expressions: string[])
+{
+	for (const expr of expressions)
+		if (!new RegExp(`/${expr}/`).test(text))
 			return true;
-	}
 	return false;
 }
 
-export function resolveIcon(document: TextDocument) {
+export function resolveIcon(document: TextDocument)
+{
 	let image = icons.find(i =>
 		i.matches.includes(resolveFileName(document.fileName)));
 	if (!image) image = icons.find(i =>

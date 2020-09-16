@@ -1,66 +1,77 @@
 import {
-	debug,
-	DiagnosticChangeEvent,
+	commands,
 	ExtensionContext,
-	languages,
-	TextDocumentChangeEvent,
-	TextEditor,
 	window,
 	workspace,
-	WorkspaceConfiguration
 } from "vscode";
 
 import { Client } from "./client";
+import { Listener } from "./listener";
 import { Parser } from "./parser";
 import { testRegexArray } from "./util";
 
-export function activate(ctx: ExtensionContext) {
+let timeout: NodeJS.Timeout;
 
-	const config = workspace.getConfiguration("rpc");
+const config = workspace.getConfiguration("RPC");
+
+const client = new Client(config);
+const parser = new Parser(client);
+const listener = new Listener(parser);
+
+export function activate(ctx: ExtensionContext)
+{
 
 	if (testRegexArray(workspace.name, config.get<string[]>("ignoreWorkspaces")))
 		return;
 
-	const client = new Client(config);
-	const parser = new Parser(config, client);
+	_activate();
 
-	listen(parser, config);
+	ctx.subscriptions.push(
+		client.statusBar,
+		commands.registerCommand(
+			"RPC.reconnect",
+			reconnect
+		),
+		commands.registerCommand(
+			"RPC.disconnect",
+			deactivate
+		)
+	);
+}
+
+function _activate()
+{
+	client.connect();
+	parser.makeInitial();
+	listener.listen();
 
 	if (config.get("showIdle") === true)
 		checkActivity(parser, config.get<number>("checkIdleInterval") * 1000);
-
-	ctx.subscriptions.push(client.statusBar);
 }
 
-function listen(parser: Parser, config: WorkspaceConfiguration) {
-
-	const
-		fileSwitch = window.onDidChangeActiveTextEditor,
-		fileEdit = workspace.onDidChangeTextDocument,
-		debugStart = debug.onDidStartDebugSession,
-		debugEnd = debug.onDidTerminateDebugSession,
-		diagnostictsChange = languages.onDidChangeDiagnostics;
-
-	if (config.get("showFile") === true) {
-		fileSwitch((e: TextEditor) => parser.fileSwitch(e));
-		fileEdit((e: TextDocumentChangeEvent) => parser.fileEdit(e));
-	}
-
-	if (config.get("showDebugging") === true) {
-		debugStart(() => parser.toggleDebug());
-		debugEnd(() => parser.toggleDebug());
-	}
-
-	if (config.get("showProblems") === true)
-		diagnostictsChange(() => parser.diagnosticsChange());
+export function deactivate()
+{
+	clearInterval(timeout);
+	client.disconnect();
+	listener.dispose();
 }
 
-function checkActivity(parser: Parser, interval: number) {
-	const timeout = setInterval(() => {
-		if (window.state.focused) {
+function reconnect()
+{
+	deactivate();
+	_activate();
+}
+
+function checkActivity(parser: Parser, interval: number)
+{
+	timeout = setInterval(() =>
+	{
+		if (window.state.focused)
+		{
 			parser.idle(false, true);
 			timeout.refresh();
-		} else
+		}
+		else
 			parser.idle(true, true);
 	}, interval);
 }
