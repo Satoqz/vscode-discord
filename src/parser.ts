@@ -45,7 +45,10 @@ export class Parser
 		if (this.config.get("showIdle") === true)
 			this.idle(false, false);
 		else
+		{
 			this.presence.smallImageKey = icons.standard;
+			this.presence.smallImageText = this.config.get("placeholderText");
+		}
 
 		if (
 			this.config.get("showWorkspace") === true
@@ -144,6 +147,8 @@ export class Parser
 
 	public idle(value: boolean, doUpdate: boolean)
 	{
+		if (this.config.get("showIdle") !== true)
+			return;
 		this.presence.smallImageKey = value ? icons.idle : icons.active;
 		this.presence.smallImageText = value ? this.config.get("idleText") : this.config.get("activeText");
 		if (doUpdate)
