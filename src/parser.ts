@@ -71,7 +71,7 @@ export class Parser
 		const problemString = this.config.get("showProblems") === true
 			? this.config.get<string>("problemsText").replace(/{count}/g, this.problems.toString())
 			: "";
-		return activityString + problemString;
+		return `${activityString} ${problemString}`;
 	}
 
 	private makeFileInfo(document: TextDocument)
