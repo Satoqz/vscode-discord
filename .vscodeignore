@@ -1,6 +1,7 @@
 .vscode/**
 src/**
 .gitignore
+.github
 **/tsconfig.json
 **/*.ts
 .editorconfig

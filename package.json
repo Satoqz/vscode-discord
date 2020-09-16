@@ -2,10 +2,11 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"author": "Satoqz",
 	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Satoqz/vscode-discord.git"
@@ -51,124 +52,142 @@
 		"discord-rpc": "^3.1.4"
 	},
 	"eslintConfig": {
-		"extends": "subaru",
-		"rules": {
-			"brace-style": [
-				1,
-				"1tbs"
-			]
-		}
+		"extends": "subaru"
 	},
 	"contributes": {
+		"commands": [
+			{
+				"title": "RPC: Reconnect to Discord",
+				"command": "RPC.reconnect"
+			},
+			{
+				"title": "RPC: Disconnect from Discord",
+				"command": "RPC.disconnect"
+			}
+		],
 		"configuration": {
 			"title": "Discord Rich Presence Config",
 			"properties": {
-				"rpc.clientID": {
+				"RPC.clientID": {
 					"type": "string",
 					"default": "732565262704050298",
 					"description": "Discord Rich Prensence Client ID. Change only if you know exactly what youre doing"
 				},
-				"rpc.showStatusBar": {
+				"RPC.showStatusBar": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether or not to show a little icon at the bottom left that indicates the connection to the Discord Client"
 				},
-				"rpc.showIdle": {
+				"RPC.showIdle": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether or not to show an indicator icon whether you're idle or busy in VSCode"
 				},
-				"rpc.checkIdleInterval": {
+				"RPC.checkIdleInterval": {
 					"type": "number",
 					"default": 60,
 					"description": "How often to check (in seconds) if your VSCode window is focused. Only relevant if `showIdle` is set to true"
 				},
-				"rpc.showDebugging": {
+				"RPC.showDebugging": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether or not to show when you're debugging"
 				},
-				"rpc.showFile": {
+				"RPC.showFile": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether or not to show the name of the file you're working on"
 				},
-				"rpc.showWorkspace": {
+				"RPC.showWorkspace": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether or not to show the name of your workspace"
 				},
-				"rpc.showTime": {
+				"RPC.showTime": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether or not to show the elapsed time"
 				},
-				"rpc.hideFiles": {
+				"RPC.showFileInfo": {
+					"type": "boolean",
+					"default": true,
+					"description": "Whether or not to show the amount of lines of the file that you're working on"
+				},
+				"RPC.hideFiles": {
 					"type": "array",
 					"default": [],
 					"items": {
 						"type": "string"
 					},
-					"description": "Array of regular expressions to match file names that should not be shown"
+					"description": "List of patterns to match file names that should not be shown"
 				},
-				"rpc.hideWorkspaces": {
+				"RPC.hideWorkspaces": {
 					"type": "array",
 					"default": [],
 					"items": {
 						"type": "string"
 					},
-					"description": "Array of regular expressions to match workspace names that should not be shown"
+					"description": "List of patterns to match workspace names that should not be shown"
 				},
-				"rpc.ignoreWorkspaces": {
+				"RPC.ignoreWorkspaces": {
 					"type": "array",
 					"default": [],
 					"items": {
 						"type": "string"
 					},
-					"description": "Array of regular expressions to match workspace names that should prevent the extension from starting"
+					"description": "List of patterns to match workspace names that should prevent the extension from starting"
 				},
-				"rpc.showProblems": {
+				"RPC.showProblems": {
 					"type": "boolean",
 					"default": true,
 					"description": "Whether or not to show the count of problems (warnings, errors) present in your workspace"
 				},
-				"rpc.editingText": {
+				"RPC.editingText": {
 					"type": "string",
 					"default": "Editing {file}",
 					"description": "Syntax of the text displayed when you are editing a file. {file} will be replaced by the according file name"
 				},
-				"rpc.viewingText": {
+				"RPC.viewingText": {
 					"type": "string",
 					"default": "Viewing {file}",
 					"description": "Syntax of the text displayed when you are viewing a file. {file} will be replaced by the according file name"
 				},
-				"rpc.debuggingText": {
+				"RPC.debuggingText": {
 					"type": "string",
 					"default": "Debugging {file}",
 					"description": "Syntax of the text displayed when you are debugging. {file} will be replaced by the name of the opened file"
 				},
-				"rpc.workspaceText": {
+				"RPC.workspaceText": {
 					"type": "string",
 					"default": "In {workspace}",
 					"description": "Syntax of the text displaying your workspace name. {workspace} will be replaced by the name of your workspace"
 				},
-				"rpc.problemsText": {
+				"RPC.problemsText": {
 					"type": "string",
 					"default": " | {count} problems found",
 					"description": "Syntax of the text displaying the amount of problems in your workspace. {count} will be replaced by the respective amount of problems"
 				},
-				"rpc.noFileOpenedText": {
+				"RPC.placeholderText": {
 					"type": "string",
-					"default": "No file opened",
-					"description": "The text that will be displayed when you closed all editors / files"
+					"default": "Visual Studio Code",
+					"description": "The placeholder text to use when no file is opened"
+				},
+				"RPC.activeText": {
+					"type": "string",
+					"default": "Active",
+					"description": "The text shown if you're active when hovering over the small icon"
+				},
+				"RPC.idleText": {
+					"type": "string",
+					"default": "Idle",
+					"description": "The text shown if you're idle when hovering over the small icon"
+				},
+				"RPC.fileInfoText": {
+					"type": "string",
+					"default": "{language} file, on line {column} of {linecount}",
+					"description": "The text displayed when hovering the large image showing more information on the file that you're editing. Use {language}. {column} and {linecount} to display the wanted information"
 				}
 			}
 		}
-	},
-	"discord": {
-		"discord": {
-			"clientID": "732565262704050298"
-		},
-		"clientID": "732565262704050298"
 	}
 }
