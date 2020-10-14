@@ -52,7 +52,7 @@ export class Parser
 
 		if (
 			this.config.get("showWorkspace") === true
-		&& !testRegexArray(workspace.name, this.config.get("hideWorkspaces"))
+			&& !testRegexArray(workspace.name, this.config.get("hideWorkspaces"))
 		)
 			this.presence.state = workspace.name
 				? this.config.get<string>("workspaceText").replace(/{workspace}/g, workspace.name)

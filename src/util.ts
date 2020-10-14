@@ -11,15 +11,18 @@ export function testRegexArray(text: string, expressions: string[])
 
 export function resolveIcon(document: TextDocument)
 {
-	let image = icons.find(i =>
-		i.matches.includes(resolveFileName(document.fileName)));
-	if (!image) image = icons.find(i =>
-		i.matches.includes(resolveFileExtension(document.fileName)));
-	if (!image) image = icons.find(i =>
-		i.matches.includes(document.languageId));
-	return image ? image.key : "file";
+	return (
+		icons.find(i =>
+			i.matches.includes(resolveFileName(document.fileName)))
+		?? icons.find(i =>
+			i.matches.includes(resolveFileExtension(document.fileName)))
+		?? icons.find(i =>
+			i.matches.includes(document.languageId))
+	).key ?? "file";
 }
 
-export const resolveFileName = (file: string): string | undefined => file.split(/(\/)+|(\\)+/).pop();
+export const resolveFileName = (file: string) =>
+	file.split(/(\/)+|(\\)+/).pop();
 
-export const resolveFileExtension = (file: string): string | undefined => file.split(".").pop();
+export const resolveFileExtension = (file: string) =>
+	file.split(".").pop();
