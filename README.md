@@ -29,6 +29,8 @@ Features include indication of:
 ## Requirements
 
 ### [Discord desktop installation](https://discord.com/download)
+> **Linux users:** Note that discord versions installed using `flatpak` or `snap` need modifications in order to support IPC. 
+> You are much better off installing discord from the official repositories of your linux distribution. ([Flatpak thread](https://github.com/flathub/com.discordapp.Discord/issues/29))
 
 ## Credits
 
