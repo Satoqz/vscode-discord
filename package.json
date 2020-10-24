@@ -2,7 +2,7 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "1.2.2",
+	"version": "1.3.0",
 	"author": "Satoqz",
 	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
@@ -12,7 +12,7 @@
 		"url": "https://github.com/Satoqz/vscode-discord.git"
 	},
 	"engines": {
-		"vscode": "^1.49.0"
+		"vscode": "^1.50.0"
 	},
 	"categories": [
 		"Visualization",
@@ -76,17 +76,22 @@
 				"RPC.showStatusBar": {
 					"type": "boolean",
 					"default": true,
-					"description": "Whether or not to show a little icon at the bottom left that indicates the connection to the Discord Client"
+					"description": "Whether or not to show a little icon at the bottom left that indicates the connection to the Discord client"
 				},
-				"RPC.showIdle": {
+				"RPC.checkIdle": {
 					"type": "boolean",
 					"default": true,
-					"description": "Whether or not to show an indicator icon whether you're idle or busy in VSCode"
+					"description": "Whether or not to check if you are still active or idle and react accordingly"
 				},
-				"RPC.checkIdleInterval": {
+				"RPC.disconnectOnIdle": {
+					"type": "boolean",
+					"default": false,
+					"description": "If set to true, the rich presence will disappear as soon as you are recognized as idle. Requires checkIdle to be enabled. If checkIdle is set to true and disconnectOnIdle to false, there will be a small badge indicating your inactivity"
+				},
+				"RPC.idleTimeout": {
 					"type": "number",
 					"default": 60,
-					"description": "How often to check (in seconds) if your VSCode window is focused. Only relevant if `showIdle` is set to true"
+					"description": "How long the window should be unfocused (in seconds) to either disable rich presence or display you as idle"
 				},
 				"RPC.showDebugging": {
 					"type": "boolean",
@@ -171,11 +176,6 @@
 					"type": "string",
 					"default": "Visual Studio Code",
 					"description": "The placeholder text to use when no file is opened"
-				},
-				"RPC.activeText": {
-					"type": "string",
-					"default": "Active",
-					"description": "The text shown if you're active when hovering over the small icon"
 				},
 				"RPC.idleText": {
 					"type": "string",

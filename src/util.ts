@@ -4,7 +4,7 @@ import icons from "./icons.json";
 export function testRegexArray(text: string, expressions: string[])
 {
 	for (const expr of expressions)
-		if (!new RegExp(`/${expr}/`).test(text))
+		if (new RegExp(`/${expr}/`).test(text))
 			return true;
 	return false;
 }

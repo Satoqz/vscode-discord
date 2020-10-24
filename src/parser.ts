@@ -22,7 +22,6 @@ enum activity {
 enum icons {
 	other = "file",
 	idle = "inactive",
-	active = "active",
 	standard = "vscode"
 }
 
@@ -39,16 +38,11 @@ export class Parser
 		if (this.config.get("showTime") === true)
 			this.presence.startTimestamp = Date.now();
 
+		const placeholder = this.config.get<string>("placeholderText");
 		this.presence.largeImageKey = icons.standard;
-		this.presence.largeImageText = this.config.get("placeholderText");
-
-		if (this.config.get("showIdle") === true)
-			this.idle(false, false);
-		else
-		{
-			this.presence.smallImageKey = icons.standard;
-			this.presence.smallImageText = this.config.get("placeholderText");
-		}
+		this.presence.largeImageText = placeholder;
+		this.presence.smallImageKey = icons.standard;
+		this.presence.smallImageText = placeholder;
 
 		if (
 			this.config.get("showWorkspace") === true
@@ -101,7 +95,6 @@ export class Parser
 			this.presence.details = undefined;
 			this.presence.largeImageText = this.config.get("placeholderText");
 		}
-		this.idle(false, false);
 		this.update();
 	}
 
@@ -117,13 +110,11 @@ export class Parser
 		this.presence.details = this.makeActivity(activity.editing, document.fileName);
 		if (this.config.get("showFileInfo") === true)
 			this.presence.largeImageText = this.makeFileInfo(document);
-		this.idle(false, false);
 		this.update();
 	}
 
 	public toggleDebug()
 	{
-		this.idle(false, false);
 		this.debugging = !this.debugging;
 	}
 
@@ -145,14 +136,15 @@ export class Parser
 		this.problems = counted;
 	}
 
-	public idle(value: boolean, doUpdate: boolean)
+	public idle(value: boolean)
 	{
-		if (this.config.get("showIdle") !== true)
-			return;
-		this.presence.smallImageKey = value ? icons.idle : icons.active;
-		this.presence.smallImageText = value ? this.config.get("idleText") : this.config.get("activeText");
-		if (doUpdate)
-			this.update();
+		this.presence.smallImageKey = value
+			? icons.idle
+			: icons.standard;
+		this.presence.smallImageText = value
+			? this.config.get("idleText")
+			: this.config.get("placeholderText");
+		this.update();
 	}
 
 	private update()
