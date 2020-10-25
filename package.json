@@ -2,7 +2,7 @@
 	"name": "yet-another-discord-presence",
 	"displayName": "Yet another Discord Presence",
 	"description": "Yet another Discord Rich Presence will show information on your current activity in Visual Studio Code",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"author": "Satoqz",
 	"icon": "assets/icon.png",
 	"publisher": "Satoqz",
@@ -169,7 +169,7 @@
 				},
 				"RPC.problemsText": {
 					"type": "string",
-					"default": " | {count} problems found",
+					"default": "- {count} problems found",
 					"description": "Syntax of the text displaying the amount of problems in your workspace. {count} will be replaced by the respective amount of problems"
 				},
 				"RPC.placeholderText": {
