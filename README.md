@@ -1,5 +1,8 @@
 # Yet another Discord Presence
 
+![](https://img.shields.io/visual-studio-marketplace/i/satoqz.yet-another-discord-presence)
+![](https://img.shields.io/visual-studio-marketplace/d/satoqz.yet-another-discord-presence)
+
 ![](assets/example_full.png)<br>
 ![](assets/example_clean.png)
 
