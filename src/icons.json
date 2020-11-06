@@ -1,67 +1,27 @@
 [
 	{
-		"key": "npm",
-		"matches": ["package.json", "npmignore", "package-lock.json"]
-	},
-	{
-		"key": "yarn",
-		"matches": ["yarn.lock"]
-	},
-	{
-		"key": "eslint",
-		"matches": ["eslintrc", ".eslintrc.json"]
-	},
-	{
-		"key": "git",
-		"matches": ["gitignore"]
-	},
-	{
-		"key": "shell",
-		"matches": ["bat, shell"]
-	},
-	{
-		"key": "config",
-		"matches": ["config", "env"]
-	},
-	{
-		"key": "actionscript",
-		"matches": ["as", "ActionScript3"]
-	},
-	{
-		"key": "svg",
-		"matches": ["svg"]
-	},
-	{
-		"key": "webpack",
-		"matches": ["webpack.config.js"]
-	},
-	{
-		"key": "dotnet",
-		"matches": ["csproj", "fsproj"]
-	},
-	{
-		"key": "vue",
-		"matches": ["vue"]
-	},
-	{
 		"key": "c",
 		"matches": ["c"]
 	},
 	{
-		"key": "cargo",
-		"matches": ["cargo.toml", "cargo.lock"]
+		"key": "cmake",
+		"matches": ["makfile", "Makefile", "cmake"]
+	},
+	{
+		"key": "coffeescript",
+		"matches": ["coffee", "coffeescript"]
 	},
 	{
 		"key": "cpp",
 		"matches": ["cpp"]
 	},
 	{
-		"key": "css",
-		"matches": ["css", "scss", "sass"]
+		"key": "csharp",
+		"matches": ["cs", "csharp"]
 	},
 	{
-		"key": "razor",
-		"matches": ["cshtml", "razor"]
+		"key": "css",
+		"matches": ["css"]
 	},
 	{
 		"key": "dart",
@@ -69,7 +29,7 @@
 	},
 	{
 		"key": "docker",
-		"matches": ["Dockerfile", "docker-compose.yml"]
+		"matches": ["dockerfile", "Dockerfile", "dockerignore", "docker-compose.yml"]
 	},
 	{
 		"key": "editorconfig",
@@ -77,75 +37,123 @@
 	},
 	{
 		"key": "elixir",
-		"matches": ["elixir"]
+		"matches": ["ex", "elixir"]
+	},
+	{
+		"key": "env",
+		"matches": ["env"]
 	},
 	{
 		"key": "erlang",
 		"matches": ["erlang"]
 	},
 	{
-		"key": "fsharp",
-		"matches": ["fsharp"]
+		"key": "git",
+		"matches": ["gitignore", "gitattributes"]
 	},
 	{
 		"key": "go",
-		"matches": ["go"]
+		"matches": ["go", "go.mod"]
+	},
+	{
+		"key": "golo",
+		"matches": ["golo"]
+	},
+	{
+		"key": "gradle",
+		"matches": ["gradle"]
+	},
+	{
+		"key": "groovy",
+		"matches": ["groovy", "gvy", "gy", "gsh"]
+	},
+	{
+		"key": "handlebars",
+		"matches": ["hbs", "handlebars"]
 	},
 	{
 		"key": "haskell",
-		"matches": ["haskell", "hs"]
+		"matches": ["hs", "haskell"]
 	},
 	{
 		"key": "html",
-		"matches": ["html"]
+		"matches": ["html", "htm"]
 	},
 	{
 		"key": "java",
-		"matches": ["java", "class", "jar"]
+		"matches": ["java"]
 	},
 	{
 		"key": "javascript",
-		"matches": ["javascript"]
-	},
-	{
-		"key": "typescript",
-		"matches": ["typescript"]
-	},
-	{
-		"key": "react",
-		"matches": ["tsx", "jsx"]
+		"matches": ["js", "javascript"]
 	},
 	{
 		"key": "json",
 		"matches": ["json"]
 	},
 	{
+		"key": "jsx",
+		"matches": ["jsx"]
+	},
+	{
 		"key": "kotlin",
-		"matches": ["kotlin", "kt"]
+		"matches": ["kt", "kotlin"]
+	},
+	{
+		"key": "less",
+		"matches": ["less"]
 	},
 	{
 		"key": "lua",
 		"matches": ["lua"]
 	},
 	{
+		"key": "markdown",
+		"matches": ["md", "markdown"]
+	},
+	{
+		"key": "perl",
+		"matches": ["perl"]
+	},
+	{
 		"key": "php",
 		"matches": ["php"]
 	},
 	{
-		"key": "pug",
-		"matches": ["pug"]
+		"key": "powershell",
+		"matches": ["psh", "pwsh", "bat", "powershell"]
 	},
 	{
 		"key": "python",
-		"matches": ["python", "py"]
+		"matches": ["py", "python"]
 	},
 	{
 		"key": "ruby",
-		"matches": ["ruby"]
+		"matches": ["rb", "ruby"]
 	},
 	{
 		"key": "rust",
-		"matches": ["rust", "rs"]
+		"matches": ["rs", "rust"]
+	},
+	{
+		"key": "sass",
+		"matches": ["sass"]
+	},
+	{
+		"key": "scala",
+		"matches": ["scala"]
+	},
+	{
+		"key": "shell",
+		"matches": ["sh", "shell"]
+	},
+	{
+		"key": "sql",
+		"matches": ["sql"]
+	},
+	{
+		"key": "stylus",
+		"matches": ["stylus", "styl"]
 	},
 	{
 		"key": "swift",
@@ -153,30 +161,34 @@
 	},
 	{
 		"key": "text",
-		"matches": ["txt"]
-	},
-	{
-		"key": "xaml",
-		"matches": ["xaml"]
-	},
-	{
-		"key": "xml",
-		"matches": ["xml"]
+		"matches": ["txt", "text"]
 	},
 	{
 		"key": "toml",
 		"matches": ["toml"]
 	},
 	{
-		"key": "wasm",
-		"matches": ["wasm"]
+		"key": "tsx",
+		"matches": ["tsx"]
+	},
+	{
+		"key": "twig",
+		"matches": ["twig"]
+	},
+	{
+		"key": "typescript",
+		"matches": ["ts", "typescript"]
+	},
+	{
+		"key": "vue",
+		"matches": ["vue"]
+	},
+	{
+		"key": "xml",
+		"matches": ["xml", "xaml"]
 	},
 	{
 		"key": "yaml",
-		"matches": ["yaml", "yml"]
-	},
-	{
-		"key": "csharp",
-		"matches": ["csharp", "cs"]
+		"matches": ["yml", "yaml"]
 	}
 ]

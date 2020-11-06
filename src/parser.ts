@@ -13,14 +13,14 @@ import {
 import type { Client } from "./client";
 import { resolveFileName, resolveIcon, testRegexArray } from "./util";
 
-enum activity {
+const enum activity {
 	debugging = "debuggingText",
 	editing = "editingText",
 	viewing = "viewingText"
 }
 
-enum icons {
-	other = "file",
+const enum icons {
+	other = "text",
 	idle = "inactive",
 	standard = "vscode"
 }
