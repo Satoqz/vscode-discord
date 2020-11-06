@@ -1,5 +1,9 @@
 # Change Log
 
+### 1.4.0
+- New icons
+- Bugfixes
+
 ### 1.3.0
 
 There are now two modes that can be selected using `RPC.disconnectOnIdle` to determine what happens when you are detected as inactive (window unfocused)
