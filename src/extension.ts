@@ -8,7 +8,6 @@ import {
 import { Client } from "./client";
 import { Listener } from "./listener";
 import { Parser } from "./parser";
-import { testRegexArray } from "./util";
 
 const config = workspace.getConfiguration("RPC");
 
@@ -20,7 +19,7 @@ export default class Extension
 {
 	public static activate(ctx: ExtensionContext)
 	{
-		if (testRegexArray(workspace.name, config.get<string[]>("ignoreWorkspaces")))
+		if (config.get<string[]>("ignoreWorkspaces").includes(workspace.name))
 			return;
 
 		Extension._activate();
@@ -67,10 +66,12 @@ if (config.get<boolean>("checkIdle") === true)
 {
 	const timeout = config.get<number>("idleTimeout") * 1000;
 	const doDeactivate = config.get<boolean>("disconnectOnIdle");
-	
-	window.onDidChangeWindowState(({ focused }) => {
+
+	window.onDidChangeWindowState(({ focused }) =>
+	{
 		if (!focused)
-			setTimeout(() => {
+			setTimeout(() =>
+			{
 				if (!window.state.focused)
 				{
 					if (doDeactivate)

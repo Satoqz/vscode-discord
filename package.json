@@ -12,7 +12,7 @@
 		"url": "https://github.com/Satoqz/vscode-discord.git"
 	},
 	"engines": {
-		"vscode": "^1.50.0"
+		"vscode": "^1.52.0"
 	},
 	"categories": [
 		"Visualization",
@@ -124,7 +124,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "List of patterns to match file names that should not be shown"
+					"description": "List of file names that should not be shown"
 				},
 				"RPC.hideWorkspaces": {
 					"type": "array",
@@ -132,7 +132,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "List of patterns to match workspace names that should not be shown"
+					"description": "List of workspace names that should not be shown"
 				},
 				"RPC.ignoreWorkspaces": {
 					"type": "array",
@@ -140,7 +140,7 @@
 					"items": {
 						"type": "string"
 					},
-					"description": "List of patterns to match workspace names that should prevent the extension from starting"
+					"description": "List of workspace names that should prevent the extension from starting"
 				},
 				"RPC.showProblems": {
 					"type": "boolean",

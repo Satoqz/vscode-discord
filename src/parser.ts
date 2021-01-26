@@ -11,7 +11,7 @@ import {
 } from "vscode";
 
 import type { Client } from "./client";
-import { resolveFileName, resolveIcon, testRegexArray } from "./util";
+import { resolveFileName, resolveIcon } from "./util";
 
 const enum activity {
 	debugging = "debuggingText",
@@ -46,7 +46,7 @@ export class Parser
 
 		if (
 			this.config.get("showWorkspace") === true
-			&& !testRegexArray(workspace.name, this.config.get("hideWorkspaces"))
+			&& !this.config.get<string[]>("hideWorkspaces").includes(workspace.name)
 		)
 			this.presence.state = workspace.name
 				? this.config.get<string>("workspaceText").replace(/{workspace}/g, workspace.name)
@@ -60,7 +60,7 @@ export class Parser
 		if (this.debugging)
 			type = activity.debugging;
 		const file = resolveFileName(path);
-		const excludeFile = testRegexArray(file, this.config.get("hideFiles"));
+		const excludeFile = this.config.get<string[]>("hideFiles").includes(file);
 		const activityString = this.config.get<string>(type).replace(/{file}/g, excludeFile ? "a file" : file);
 		const problemString = this.config.get("showProblems") === true
 			? this.config.get<string>("problemsText").replace(/{count}/g, this.problems.toString())
