@@ -46,7 +46,7 @@
 		"eslint": "^7.20.0",
 		"eslint-config-subaru": "^1.1.5",
 		"typescript": "^4.1.5",
-		"vscode-test": "^1.5.0"
+		"vscode-test": "^1.5.1"
 	},
 	"dependencies": {
 		"discord-rpc": "^3.2.0"
