@@ -28,7 +28,3 @@
 ### [Discord desktop installation](https://discord.com/download)<p>
 > **Linux users:** Note that discord versions installed using `flatpak` or `snap` need modifications in order to support IPC. 
 > You are much better off installing discord from the official repositories of your linux distribution. ([Flatpak thread](https://github.com/flathub/com.discordapp.Discord/issues/29))
-
-## Credits
-
-### Slightly modified file icons by [Laurent Treguier](https://github.com/LaurentTreguier/vscode-simple-icons)
