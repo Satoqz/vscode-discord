@@ -15,54 +15,52 @@ const client = new Client(config);
 const parser = new Parser(client);
 const listener = new Listener(parser);
 
-export default class Extension
+// tracks extension activation status
+let active = false;
+
+// internal part of activation that we can use for reconnection
+function _activate(): void
 {
-	public static activate(ctx: ExtensionContext)
-	{
-		if (config.get<string[]>("ignoreWorkspaces").includes(workspace.name))
-			return;
-
-		Extension._activate();
-
-		ctx.subscriptions.push(
-			client.statusBar,
-			commands.registerCommand(
-				"RPC.reconnect",
-				Extension.reconnect
-			),
-			commands.registerCommand(
-				"RPC.disconnect",
-				Extension.deactivate
-			)
-		);
-	}
-
-	// just a small part of activation that we can use for reconnection
-	public static _activate()
-	{
-		client.connect();
-		parser.makeInitial();
-		listener.listen();
-		Extension.active = true;
-	}
-
-	public static deactivate()
-	{
-		client.disconnect();
-		listener.dispose();
-		Extension.active = false;
-	}
-
-	public static reconnect()
-	{
-		Extension.deactivate();
-		Extension._activate();
-	}
-
-	public static active = false
+	client.connect();
+	parser.makeInitial();
+	listener.listen();
+	active = true;
 }
 
-if (config.get<boolean>("checkIdle") === true)
+export function activate(ctx: ExtensionContext): void
+{
+	if (config.get<string[]>("ignoreWorkspaces").includes(workspace.name))
+		return;
+
+	_activate();
+
+	ctx.subscriptions.push(
+		client.statusBar,
+		commands.registerCommand(
+			"RPC.reconnect",
+			reconnect
+		),
+		commands.registerCommand(
+			"RPC.disconnect",
+			deactivate
+		)
+	);
+}
+
+export function deactivate(): void
+{
+	client.disconnect();
+	listener.dispose();
+	active = false;
+}
+
+function reconnect(): void
+{
+	deactivate();
+	_activate();
+}
+
+if (config.get("checkIdle"))
 {
 	const timeout = config.get<number>("idleTimeout") * 1000;
 	const doDeactivate = config.get<boolean>("disconnectOnIdle");
@@ -76,8 +74,8 @@ if (config.get<boolean>("checkIdle") === true)
 				{
 					if (doDeactivate)
 					{
-						if (Extension.active)
-							Extension.deactivate();
+						if (active)
+							deactivate();
 					}
 					else
 						parser.idle(true);
@@ -85,8 +83,8 @@ if (config.get<boolean>("checkIdle") === true)
 			}, timeout);
 		else
 		{
-			if (!Extension.active)
-				Extension._activate();
+			if (!active)
+				_activate();
 			else if (!doDeactivate)
 				parser.idle(false);
 		}

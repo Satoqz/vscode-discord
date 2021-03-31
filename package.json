@@ -32,7 +32,7 @@
 	"activationEvents": [
 		"*"
 	],
-	"main": "./build/index.js",
+	"main": "./build/extension.js",
 	"scripts": {
 		"vscode:prepublish": "npm run build",
 		"build": "tsc -p ./",
@@ -176,7 +176,12 @@
 				"RPC.placeholderText": {
 					"type": "string",
 					"default": "Visual Studio Code",
-					"description": "The placeholder text to use when no file is opened"
+					"description": "The placeholder text for empty fields, such as the small icon"
+				},
+				"RPC.placeholderTextInsiders": {
+					"type": "string",
+					"default": "Visual Studio Code Insiders",
+					"description": "The placeholder text for empty fields, such as the small icon, but for the insiders version"
 				},
 				"RPC.idleText": {
 					"type": "string",

@@ -20,9 +20,15 @@ const enum activity {
 	viewing = "viewingText"
 }
 
-const vsicon = env.appName.toLowerCase().includes("insiders")
+const isInsiders = env.appName.toLowerCase().includes("insiders");
+
+const vsicon = isInsiders
 	? "insiders"
 	: "vscode";
+
+const placeholderKey = isInsiders
+	? "placeholderTextInsiders"
+	: "placeholderText";
 
 const enum icons {
 	other = "text",
@@ -39,17 +45,17 @@ export class Parser
 
 	public makeInitial()
 	{
-		if (this.config.get("showTime") === true)
+		if (this.config.get("showTime"))
 			this.presence.startTimestamp = Date.now();
 
-		const placeholder = this.config.get<string>("placeholderText");
+		const placeholder = this.config.get<string>(placeholderKey);
 		this.presence.largeImageKey = vsicon;
 		this.presence.largeImageText = placeholder;
 		this.presence.smallImageKey = vsicon;
 		this.presence.smallImageText = placeholder;
 
 		if (
-			this.config.get("showWorkspace") === true
+			this.config.get("showWorkspace")
 			&& !this.config.get<string[]>("hideWorkspaces").includes(workspace.name)
 		)
 			this.presence.state = workspace.name
@@ -66,7 +72,7 @@ export class Parser
 		const file = resolveFileName(path);
 		const excludeFile = this.config.get<string[]>("hideFiles").includes(file);
 		const activityString = this.config.get<string>(type).replace(/{file}/g, excludeFile ? "a file" : file);
-		const problemString = this.config.get("showProblems") === true
+		const problemString = this.config.get("showProblems")
 			? this.config.get<string>("problemsText").replace(/{count}/g, this.problems.toString())
 			: "";
 		return `${activityString} ${problemString}`;
@@ -90,14 +96,14 @@ export class Parser
 		{
 			this.presence.largeImageKey = resolveIcon(editor.document);
 			this.presence.details = this.makeActivity(activity.viewing, editor.document.fileName);
-			if (this.config.get("showFileInfo") === true)
+			if (this.config.get("showFileInfo"))
 				this.presence.largeImageText = this.makeFileInfo(editor.document);
 		}
 		else
 		{
 			this.presence.largeImageKey = vsicon;
 			this.presence.details = undefined;
-			this.presence.largeImageText = this.config.get("placeholderText");
+			this.presence.largeImageText = this.config.get(placeholderKey);
 		}
 		this.update();
 	}
@@ -112,7 +118,7 @@ export class Parser
 
 		this.presence.largeImageKey = resolveIcon(document);
 		this.presence.details = this.makeActivity(activity.editing, document.fileName);
-		if (this.config.get("showFileInfo") === true)
+		if (this.config.get("showFileInfo"))
 			this.presence.largeImageText = this.makeFileInfo(document);
 		this.update();
 	}
@@ -147,7 +153,7 @@ export class Parser
 			: vsicon;
 		this.presence.smallImageText = value
 			? this.config.get("idleText")
-			: this.config.get("placeholderText");
+			: this.config.get(placeholderKey);
 		this.update();
 	}
 

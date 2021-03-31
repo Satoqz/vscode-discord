@@ -32,19 +32,19 @@ export class Listener
 			debugEnd = debug.onDidTerminateDebugSession,
 			diagnostictsChange = languages.onDidChangeDiagnostics;
 
-		if (this.config.get("showFile") === true)
+		if (this.config.get("showFile"))
 			this.disposables.push(
 				fileSwitch((e: TextEditor) => this.parser.fileSwitch(e)),
 				fileEdit((e: TextDocumentChangeEvent) => this.parser.fileEdit(e))
 			);
 
-		if (this.config.get("showDebugging") === true)
+		if (this.config.get("showDebugging"))
 			this.disposables.push(
 				debugStart(() => this.parser.toggleDebug()),
 				debugEnd(() => this.parser.toggleDebug())
 			);
 
-		if (this.config.get("showProblems") === true)
+		if (this.config.get("showProblems"))
 			this.disposables.push(
 				diagnostictsChange(() => this.parser.diagnosticsChange())
 			);
