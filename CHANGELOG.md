@@ -1,5 +1,9 @@
 # Change Log
 
+### 1.5.0
+- More icons
+- Detects insider version
+
 ### 1.4.0
 - New icons
 - Bugfixes
