@@ -7,7 +7,8 @@ import {
 	TextEditor,
 	window,
 	workspace,
-	WorkspaceConfiguration
+	WorkspaceConfiguration,
+	env
 } from "vscode";
 
 import type { Client } from "./client";
@@ -19,10 +20,13 @@ const enum activity {
 	viewing = "viewingText"
 }
 
+const vsicon = env.appName.toLowerCase().includes("insiders")
+	? "insiders"
+	: "vscode";
+
 const enum icons {
 	other = "text",
-	idle = "inactive",
-	standard = "vscode"
+	idle = "inactive"
 }
 
 export class Parser
@@ -39,9 +43,9 @@ export class Parser
 			this.presence.startTimestamp = Date.now();
 
 		const placeholder = this.config.get<string>("placeholderText");
-		this.presence.largeImageKey = icons.standard;
+		this.presence.largeImageKey = vsicon;
 		this.presence.largeImageText = placeholder;
-		this.presence.smallImageKey = icons.standard;
+		this.presence.smallImageKey = vsicon;
 		this.presence.smallImageText = placeholder;
 
 		if (
@@ -91,7 +95,7 @@ export class Parser
 		}
 		else
 		{
-			this.presence.largeImageKey = icons.standard;
+			this.presence.largeImageKey = vsicon;
 			this.presence.details = undefined;
 			this.presence.largeImageText = this.config.get("placeholderText");
 		}
@@ -140,7 +144,7 @@ export class Parser
 	{
 		this.presence.smallImageKey = value
 			? icons.idle
-			: icons.standard;
+			: vsicon;
 		this.presence.smallImageText = value
 			? this.config.get("idleText")
 			: this.config.get("placeholderText");
