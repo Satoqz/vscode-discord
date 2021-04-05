@@ -43,7 +43,8 @@ export class Client
 			this.statusBar.show();
 
 		this.rpc = new RPCClient({ transport: "ipc" });
-		this.rpc.login({ clientId: this.config.get<string>("clientID") });
+		this.rpc.login({ clientId: this.config.get<string>("clientID") })
+			.catch(() => this.disconnect());
 		this.rpc.once("ready", () =>
 		{
 			this.ready = true;
