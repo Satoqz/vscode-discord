@@ -45,7 +45,7 @@
 		"@types/vscode": "^1.57.0",
 		"eslint": "^7.28.0",
 		"eslint-config-subaru": "^1.1.5",
-		"typescript": "^4.3.2",
+		"typescript": "^4.3.4",
 		"utf-8-validate": "^5.0.5",
 		"vscode-test": "^1.5.2"
 	},
