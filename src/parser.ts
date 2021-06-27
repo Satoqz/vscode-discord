@@ -12,7 +12,7 @@ import {
 } from "vscode";
 
 import type { Client } from "./client";
-import { resolveFileName, resolveIcon } from "./util";
+import { resolveFileName, resolveFileExtension, resolveIcon } from "./util";
 
 const enum activity {
 	debugging = "debuggingText",
@@ -70,8 +70,9 @@ export class Parser
 		if (this.debugging)
 			type = activity.debugging;
 		const file = resolveFileName(path);
+		const language = resolveFileExtension(path);
 		const excludeFile = this.config.get<string[]>("hideFiles").includes(file);
-		const activityString = this.config.get<string>(type).replace(/{file}/g, excludeFile ? "a file" : file);
+		const activityString = this.config.get<string>(type).replace(/{file}/g, excludeFile ? "a file" : file).replace(/{language}/g, language);
 		const problemString = this.config.get("showProblems")
 			? this.config.get<string>("problemsText").replace(/{count}/g, this.problems.toString())
 			: "";
