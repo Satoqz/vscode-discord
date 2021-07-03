@@ -1,200 +1,200 @@
 {
-	"name": "yet-another-discord-presence",
-	"displayName": "Yet another Discord Presence",
-	"description": "Yet another Discord Presence will show customizable rich presence information of your Visual Studio Code activity in Discord",
-	"version": "1.5.3",
-	"author": "Satoqz",
-	"icon": "assets/icon.png",
-	"publisher": "Satoqz",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Satoqz/vscode-discord.git"
-	},
-	"engines": {
-		"vscode": "^1.57.0"
-	},
-	"categories": [
-		"Visualization",
-		"Other"
-	],
-	"extensionKind": [
-		"ui",
-		"workspace"
-	],
-	"keywords": [
-		"discord",
-		"presence",
-		"rich presence",
-		"rpc",
-		"game status"
-	],
-	"activationEvents": [
-		"*"
-	],
-	"main": "./build/extension.js",
-	"scripts": {
-		"vscode:prepublish": "npm run build",
-		"build": "tsc -p ./",
-		"lint": "eslint src --ext ts",
-		"watch": "tsc -watch -p ./"
-	},
-	"devDependencies": {
-		"@types/discord-rpc": "^3.0.5",
-		"@types/node": "^15.14.0",
-		"@types/vscode": "^1.57.0",
-		"eslint": "^7.29.0",
-		"eslint-config-subaru": "^1.1.5",
-		"prettier": "^2.3.2",
-		"typescript": "^4.3.5",
-		"utf-8-validate": "^5.0.5",
-		"vscode-test": "^1.5.2"
-	},
-	"dependencies": {
-		"discord-rpc": "^4.0.1"
-	},
-	"eslintConfig": {
-		"extends": "subaru"
-	},
-	"contributes": {
-		"commands": [
-			{
-				"title": "RPC: Reconnect to Discord",
-				"command": "RPC.reconnect"
-			},
-			{
-				"title": "RPC: Disconnect from Discord",
-				"command": "RPC.disconnect"
-			}
-		],
-		"configuration": {
-			"title": "Discord Rich Presence Config",
-			"properties": {
-				"RPC.clientID": {
-					"type": "string",
-					"default": "732565262704050298",
-					"description": "Discord Rich Prensence Client ID. Change only if you know exactly what youre doing"
-				},
-				"RPC.showStatusBar": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to show a little icon at the bottom left that indicates the connection to the Discord client"
-				},
-				"RPC.checkIdle": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to check if you are still active or idle and react accordingly"
-				},
-				"RPC.disconnectOnIdle": {
-					"type": "boolean",
-					"default": false,
-					"description": "If set to true, the rich presence will disappear as soon as you are recognized as idle. Requires checkIdle to be enabled. If checkIdle is set to true and disconnectOnIdle to false, there will be a small badge indicating your inactivity"
-				},
-				"RPC.idleTimeout": {
-					"type": "number",
-					"default": 60,
-					"description": "How long the window should be unfocused (in seconds) to either disable rich presence or display you as idle"
-				},
-				"RPC.showDebugging": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to show when you're debugging"
-				},
-				"RPC.showFile": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to show the name of the file you're working on"
-				},
-				"RPC.showWorkspace": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to show the name of your workspace"
-				},
-				"RPC.showTime": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to show the elapsed time"
-				},
-				"RPC.showFileInfo": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to show the amount of lines of the file that you're working on"
-				},
-				"RPC.hideFiles": {
-					"type": "array",
-					"default": [],
-					"items": {
-						"type": "string"
-					},
-					"description": "List of file names that should not be shown"
-				},
-				"RPC.hideWorkspaces": {
-					"type": "array",
-					"default": [],
-					"items": {
-						"type": "string"
-					},
-					"description": "List of workspace names that should not be shown"
-				},
-				"RPC.ignoreWorkspaces": {
-					"type": "array",
-					"default": [],
-					"items": {
-						"type": "string"
-					},
-					"description": "List of workspace names that should prevent the extension from starting"
-				},
-				"RPC.showProblems": {
-					"type": "boolean",
-					"default": true,
-					"description": "Whether or not to show the count of problems (warnings, errors) present in your workspace"
-				},
-				"RPC.editingText": {
-					"type": "string",
-					"default": "Editing {file}",
-					"description": "Syntax of the text displayed when you are editing a file. {file} will be replaced by the according file name"
-				},
-				"RPC.viewingText": {
-					"type": "string",
-					"default": "Viewing {file}",
-					"description": "Syntax of the text displayed when you are viewing a file. {file} will be replaced by the according file name"
-				},
-				"RPC.debuggingText": {
-					"type": "string",
-					"default": "Debugging {file}",
-					"description": "Syntax of the text displayed when you are debugging. {file} will be replaced by the name of the opened file"
-				},
-				"RPC.workspaceText": {
-					"type": "string",
-					"default": "In {workspace}",
-					"description": "Syntax of the text displaying your workspace name. {workspace} will be replaced by the name of your workspace"
-				},
-				"RPC.problemsText": {
-					"type": "string",
-					"default": "- {count} problems found",
-					"description": "Syntax of the text displaying the amount of problems in your workspace. {count} will be replaced by the respective amount of problems"
-				},
-				"RPC.placeholderText": {
-					"type": "string",
-					"default": "Visual Studio Code",
-					"description": "The placeholder text for empty fields, such as the small icon"
-				},
-				"RPC.placeholderTextInsiders": {
-					"type": "string",
-					"default": "Visual Studio Code Insiders",
-					"description": "The placeholder text for empty fields, such as the small icon, but for the insiders version"
-				},
-				"RPC.idleText": {
-					"type": "string",
-					"default": "Idle",
-					"description": "The text shown if you're idle when hovering over the small icon"
-				},
-				"RPC.fileInfoText": {
-					"type": "string",
-					"default": "{language} file, on line {currentline} of {linecount}",
-					"description": "The text displayed when hovering the large image showing more information on the file that you're editing. Use {language}, {currentline} and {linecount} to display the wanted information"
-				}
-			}
-		}
-	}
+  "name": "yet-another-discord-presence",
+  "displayName": "Yet another Discord Presence",
+  "description": "Yet another Discord Presence will show customizable rich presence information of your Visual Studio Code activity in Discord",
+  "version": "1.5.4",
+  "author": "Satoqz",
+  "icon": "assets/icon.png",
+  "publisher": "Satoqz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Satoqz/vscode-discord.git"
+  },
+  "engines": {
+    "vscode": "^1.57.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "keywords": [
+    "discord",
+    "presence",
+    "rich presence",
+    "rpc",
+    "game status"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./build/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/discord-rpc": "^3.0.5",
+    "@types/node": "^15.14.0",
+    "@types/vscode": "^1.57.0",
+    "eslint": "^7.29.0",
+    "eslint-config-subaru": "^1.1.5",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5",
+    "utf-8-validate": "^5.0.5",
+    "vscode-test": "^1.5.2"
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1"
+  },
+  "eslintConfig": {
+    "extends": "subaru"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "title": "RPC: Reconnect to Discord",
+        "command": "RPC.reconnect"
+      },
+      {
+        "title": "RPC: Disconnect from Discord",
+        "command": "RPC.disconnect"
+      }
+    ],
+    "configuration": {
+      "title": "Discord Rich Presence Config",
+      "properties": {
+        "RPC.clientID": {
+          "type": "string",
+          "default": "732565262704050298",
+          "description": "Discord Rich Prensence Client ID. Change only if you know exactly what youre doing"
+        },
+        "RPC.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to show a little icon at the bottom left that indicates the connection to the Discord client"
+        },
+        "RPC.checkIdle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to check if you are still active or idle and react accordingly"
+        },
+        "RPC.disconnectOnIdle": {
+          "type": "boolean",
+          "default": false,
+          "description": "If set to true, the rich presence will disappear as soon as you are recognized as idle. Requires checkIdle to be enabled. If checkIdle is set to true and disconnectOnIdle to false, there will be a small badge indicating your inactivity"
+        },
+        "RPC.idleTimeout": {
+          "type": "number",
+          "default": 60,
+          "description": "How long the window should be unfocused (in seconds) to either disable rich presence or display you as idle"
+        },
+        "RPC.showDebugging": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to show when you're debugging"
+        },
+        "RPC.showFile": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to show the name of the file you're working on"
+        },
+        "RPC.showWorkspace": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to show the name of your workspace"
+        },
+        "RPC.showTime": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to show the elapsed time"
+        },
+        "RPC.showFileInfo": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to show the amount of lines of the file that you're working on"
+        },
+        "RPC.hideFiles": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "List of file names that should not be shown"
+        },
+        "RPC.hideWorkspaces": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "List of workspace names that should not be shown"
+        },
+        "RPC.ignoreWorkspaces": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "List of workspace names that should prevent the extension from starting"
+        },
+        "RPC.showProblems": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to show the count of problems (warnings, errors) present in your workspace"
+        },
+        "RPC.editingText": {
+          "type": "string",
+          "default": "Editing {file}",
+          "description": "Syntax of the text displayed when you are editing a file. {file} will be replaced by the according file name, {extension} by the file's extension"
+        },
+        "RPC.viewingText": {
+          "type": "string",
+          "default": "Viewing {file}",
+          "description": "Syntax of the text displayed when you are viewing a file. {file} will be replaced by the according file name, {extension} by the file's extension"
+        },
+        "RPC.debuggingText": {
+          "type": "string",
+          "default": "Debugging {file}",
+          "description": "Syntax of the text displayed when you are debugging. {file} will be replaced by the according file name, {extension} by the file's extension"
+        },
+        "RPC.workspaceText": {
+          "type": "string",
+          "default": "In {workspace}",
+          "description": "Syntax of the text displaying your workspace name. {workspace} will be replaced by the name of your workspace, {folder} by the parent folder of your current file"
+        },
+        "RPC.problemsText": {
+          "type": "string",
+          "default": "- {count} problems found",
+          "description": "Syntax of the text displaying the amount of problems in your workspace. {count} will be replaced by the respective amount of problems"
+        },
+        "RPC.placeholderText": {
+          "type": "string",
+          "default": "Visual Studio Code",
+          "description": "The placeholder text for empty fields, such as the small icon"
+        },
+        "RPC.placeholderTextInsiders": {
+          "type": "string",
+          "default": "Visual Studio Code Insiders",
+          "description": "The placeholder text for empty fields, such as the small icon, but for the insiders version"
+        },
+        "RPC.idleText": {
+          "type": "string",
+          "default": "Idle",
+          "description": "The text shown if you're idle when hovering over the small icon"
+        },
+        "RPC.fileInfoText": {
+          "type": "string",
+          "default": "{language} file, on line {currentline} of {linecount}",
+          "description": "The text displayed when hovering the large image showing more information on the file that you're editing. Use {language}, {currentline} and {linecount} to display the wanted information"
+        }
+      }
+    }
+  }
 }
