@@ -11,22 +11,16 @@ import {
 
 import { Parser } from "./parser";
 
-export class Listener
-{
-
-	constructor(private parser: Parser)
-	{
+export class Listener {
+	constructor(private parser: Parser) {
 		this.config = parser.config;
 	}
 
-	public listen()
-	{
-
+	public listen() {
 		// just make sure that no double registration happens
 		this.dispose();
 
-		const
-			fileSwitch = window.onDidChangeActiveTextEditor,
+		const fileSwitch = window.onDidChangeActiveTextEditor,
 			fileEdit = workspace.onDidChangeTextDocument,
 			debugStart = debug.onDidStartDebugSession,
 			debugEnd = debug.onDidTerminateDebugSession,
@@ -35,7 +29,9 @@ export class Listener
 		if (this.config.get("showFile"))
 			this.disposables.push(
 				fileSwitch((e: TextEditor) => this.parser.fileSwitch(e)),
-				fileEdit((e: TextDocumentChangeEvent) => this.parser.fileEdit(e))
+				fileEdit((e: TextDocumentChangeEvent) =>
+					this.parser.fileEdit(e)
+				)
 			);
 
 		if (this.config.get("showDebugging"))
@@ -50,13 +46,13 @@ export class Listener
 			);
 	}
 
-	private disposables: Disposable[] = []
+	private disposables: Disposable[] = [];
 
-	private config: WorkspaceConfiguration
+	private config: WorkspaceConfiguration;
 
-	public dispose()
-	{
+	public dispose() {
 		this.disposables.forEach((disposable: Disposable) =>
-			disposable.dispose());
+			disposable.dispose()
+		);
 	}
 }

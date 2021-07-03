@@ -29,7 +29,12 @@
 	},
 	{
 		"key": "docker",
-		"matches": ["dockerfile", "Dockerfile", "dockerignore", "docker-compose.yml"]
+		"matches": [
+			"dockerfile",
+			"Dockerfile",
+			"dockerignore",
+			"docker-compose.yml"
+		]
 	},
 	{
 		"key": "editorconfig",

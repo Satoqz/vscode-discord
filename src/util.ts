@@ -1,16 +1,16 @@
-import { TextDocument } from "vscode";
+import type { TextDocument } from "vscode";
 import icons from "./icons.json";
 
-export function resolveIcon(document: TextDocument): string
-{
-	let icon = icons.find(i =>
-		i.matches.includes(resolveFileName(document.fileName)));
+export function resolveIcon(document: TextDocument): string {
+	let icon = icons.find((i) =>
+		i.matches.includes(resolveFileName(document.fileName))
+	);
 	if (!icon)
-		icon = icons.find(i =>
-			i.matches.includes(resolveFileExtension(document.fileName)));
+		icon = icons.find((i) =>
+			i.matches.includes(resolveFileExtension(document.fileName))
+		);
 	if (!icon)
-		icon = icons.find(i =>
-			i.matches.includes(document.languageId));
+		icon = icons.find((i) => i.matches.includes(document.languageId));
 
 	return icon ? icon.key : "text";
 }

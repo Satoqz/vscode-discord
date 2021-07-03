@@ -3,17 +3,12 @@
 		"module": "commonjs",
 		"target": "ESNext",
 		"outDir": "build",
-		"lib": [
-			"ESNext"
-		],
+		"lib": ["ESNext"],
 		"sourceMap": false,
 		"rootDir": "src",
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"removeComments": true
 	},
-	"exclude": [
-		"node_modules",
-		".vscode-test"
-	]
+	"exclude": ["node_modules", ".vscode-test"]
 }
