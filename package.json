@@ -39,7 +39,7 @@
     "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "@types/discord-rpc": "^3.0.5",
+    "@types/discord-rpc": "^3.0.6",
     "@types/node": "^16.0.0",
     "@types/vscode": "^1.57.1",
     "prettier": "^2.3.2",
