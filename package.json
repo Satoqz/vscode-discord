@@ -45,7 +45,7 @@
     "prettier": "^2.3.2",
     "typescript": "^4.3.5",
     "utf-8-validate": "^5.0.5",
-    "vscode-test": "^1.5.2"
+    "vscode-test": "^1.6.1"
   },
   "dependencies": {
     "discord-rpc": "^4.0.1"
